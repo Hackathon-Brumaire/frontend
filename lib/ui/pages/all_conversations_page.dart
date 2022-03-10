@@ -20,8 +20,7 @@ class AllConversationsPage extends StatelessWidget {
             icon: const Icon(Icons.chevron_left),
             onPressed: () => Navigator.of(context).pop()),
       ),
-      body: Stack(
-        children: [
+      body: 
           // Positioned.fill(
           //   child: Container(
           //     decoration: const BoxDecoration(
@@ -100,8 +99,6 @@ class AllConversationsPage extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
-    );
+      );
   }
 }
