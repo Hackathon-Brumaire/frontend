@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'dart:core';
 import 'signaling.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -20,9 +21,6 @@ class _CallSampleState extends State<CallSample> {
   final RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
   bool _inCalling = false;
   Session? _session;
-
-  // ignore: unused_element
-  _CallSampleState();
 
   @override
   initState() {
@@ -49,7 +47,9 @@ class _CallSampleState extends State<CallSample> {
     _signaling?.onSignalingStateChange = (SignalingState state) {
       switch (state) {
         case SignalingState.connectionClosed:
+          break;
         case SignalingState.connectionError:
+          break;
         case SignalingState.connectionOpen:
           break;
       }
@@ -72,12 +72,22 @@ class _CallSampleState extends State<CallSample> {
           });
           break;
         case CallState.callStateInvite:
+          break;
         case CallState.callStateConnected:
+          setState(() {
+            _session = session;
+            _inCalling = true;
+          });
+          break;
         case CallState.callStateRinging:
       }
     };
 
     _signaling?.onPeersUpdate = ((event) {
+      var loggerNoStack = Logger(
+        printer: PrettyPrinter(methodCount: 0),
+      );
+      loggerNoStack.w('EVENT $event');
       setState(() {
         _selfId = event['self'];
         _peers = event['peers'];
@@ -128,23 +138,19 @@ class _CallSampleState extends State<CallSample> {
         ),
         onTap: null,
         trailing: SizedBox(
-            width: 100.0,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(self ? Icons.close : Icons.videocam,
-                        color: self ? Colors.grey : Colors.black),
-                    onPressed: () => _invitePeer(context, peer['id'], false),
-                    tooltip: 'Video calling',
-                  ),
-                  IconButton(
-                    icon: Icon(self ? Icons.close : Icons.screen_share,
-                        color: self ? Colors.grey : Colors.black),
-                    onPressed: () => _invitePeer(context, peer['id'], true),
-                    tooltip: 'Screen sharing',
-                  )
-                ])),
+          width: 100.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(self ? Icons.close : Icons.videocam,
+                    color: self ? Colors.grey : Colors.black),
+                onPressed: () => _invitePeer(context, peer['id'], false),
+                tooltip: 'Video calling',
+              ),
+            ],
+          ),
+        ),
         subtitle: Text('[${peer['user_agent']}]'),
       ),
       const Divider()
@@ -170,29 +176,32 @@ class _CallSampleState extends State<CallSample> {
           ? SizedBox(
               width: 200.0,
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FloatingActionButton(
-                      child: const Icon(Icons.switch_camera),
-                      onPressed: _switchCamera,
-                    ),
-                    FloatingActionButton(
-                      onPressed: _hangUp,
-                      tooltip: 'Hangup',
-                      child: const Icon(Icons.call_end),
-                      backgroundColor: Colors.pink,
-                    ),
-                    FloatingActionButton(
-                      child: const Icon(Icons.mic_off),
-                      onPressed: _muteMic,
-                    )
-                  ]))
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  FloatingActionButton(
+                    child: const Icon(Icons.switch_camera),
+                    onPressed: _switchCamera,
+                  ),
+                  FloatingActionButton(
+                    onPressed: _hangUp,
+                    tooltip: 'Hangup',
+                    child: const Icon(Icons.call_end),
+                    backgroundColor: Colors.redAccent,
+                  ),
+                  FloatingActionButton(
+                    child: const Icon(Icons.mic_off),
+                    onPressed: _muteMic,
+                  )
+                ],
+              ),
+            )
           : null,
       body: _inCalling
-          ? OrientationBuilder(builder: (context, orientation) {
-              return Stack(
-                children: <Widget>[
-                  Positioned(
+          ? OrientationBuilder(
+              builder: (context, orientation) {
+                return Stack(
+                  children: <Widget>[
+                    Positioned(
                       left: 0.0,
                       right: 0.0,
                       top: 0.0,
@@ -203,28 +212,32 @@ class _CallSampleState extends State<CallSample> {
                         height: MediaQuery.of(context).size.height,
                         child: RTCVideoView(_remoteRenderer),
                         decoration: const BoxDecoration(color: Colors.black54),
-                      )),
-                  Positioned(
-                    left: 20.0,
-                    top: 20.0,
-                    child: Container(
-                      width: orientation == Orientation.portrait ? 90.0 : 120.0,
-                      height:
-                          orientation == Orientation.portrait ? 120.0 : 90.0,
-                      child: RTCVideoView(_localRenderer, mirror: true),
-                      decoration: const BoxDecoration(color: Colors.black54),
+                      ),
                     ),
-                  ),
-                ],
-              );
-            })
+                    Positioned(
+                      left: 20.0,
+                      top: 20.0,
+                      child: Container(
+                        width:
+                            orientation == Orientation.portrait ? 90.0 : 120.0,
+                        height:
+                            orientation == Orientation.portrait ? 120.0 : 90.0,
+                        child: RTCVideoView(_localRenderer, mirror: true),
+                        decoration: const BoxDecoration(color: Colors.black54),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            )
           : ListView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.all(0.0),
               itemCount: _peers.length,
               itemBuilder: (context, i) {
                 return _buildRow(context, _peers[i]);
-              }),
+              },
+            ),
     );
   }
 }

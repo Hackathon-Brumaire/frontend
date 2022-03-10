@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'dart:core';
 import 'dart:async';
 import 'dart:typed_data';
@@ -23,34 +24,25 @@ class _DataChannelSampleState extends State<DataChannelSample> {
   Session? _session;
   Timer? _timer;
   var _text = '';
-  // ignore: unused_element
-  _DataChannelSampleState();
 
   @override
   initState() {
-    super.initState();
     _connect();
+    super.initState();
   }
 
   @override
   deactivate() {
-    super.deactivate();
     _signaling?.close();
     _timer?.cancel();
+    super.deactivate();
   }
 
   void _connect() async {
-    _signaling ??= Signaling(widget.host)..connect();
-
-    _signaling?.onDataChannelMessage = (_, dc, RTCDataChannelMessage data) {
-      setState(() {
-        if (data.isBinary) {
-          print('Got binary [${data.binary}]');
-        } else {
-          _text = data.text;
-        }
-      });
-    };
+    _signaling ??= Signaling(widget.host);
+    if (_signaling != null) {
+      _signaling!.connect();
+    }
 
     _signaling?.onDataChannel = (_, channel) {
       _dataChannel = channel;
@@ -63,9 +55,17 @@ class _DataChannelSampleState extends State<DataChannelSample> {
         case SignalingState.connectionOpen:
           break;
       }
+      var loggerNoStack = Logger(
+        printer: PrettyPrinter(methodCount: 0),
+      );
+      loggerNoStack.w('SignalingState $state');
     };
 
     _signaling?.onCallStateChange = (Session session, CallState state) {
+      var loggerNoStack = Logger(
+        printer: PrettyPrinter(methodCount: 0),
+      );
+      loggerNoStack.w('CallState $state');
       switch (state) {
         case CallState.callStateNew:
           {
@@ -74,7 +74,9 @@ class _DataChannelSampleState extends State<DataChannelSample> {
               _inCalling = true;
             });
             _timer = Timer.periodic(
-                const Duration(seconds: 1), _handleDataChannelTest);
+              const Duration(seconds: 1),
+              _handleDataChannelTest,
+            );
             break;
           }
         case CallState.callStateBye:
@@ -96,6 +98,10 @@ class _DataChannelSampleState extends State<DataChannelSample> {
     };
 
     _signaling?.onPeersUpdate = ((event) {
+      var loggerNoStack = Logger(
+        printer: PrettyPrinter(methodCount: 0),
+      );
+      loggerNoStack.w('EVENT: $event');
       setState(() {
         _selfId = event['self'];
         _peers = event['peers'];
@@ -104,8 +110,7 @@ class _DataChannelSampleState extends State<DataChannelSample> {
   }
 
   _handleDataChannelTest(Timer timer) async {
-    String text =
-        'Say hello ' + timer.tick.toString() + ' times, from [$_selfId]';
+    String text = 'Say hello ${timer.tick} times, from [$_selfId]';
     _dataChannel
         ?.send(RTCDataChannelMessage.fromBinary(Uint8List(timer.tick + 1)));
     _dataChannel?.send(RTCDataChannelMessage(text));
@@ -130,7 +135,7 @@ class _DataChannelSampleState extends State<DataChannelSample> {
             : peer['name'] + ', ID: ${peer['id']} '),
         onTap: () => _invitePeer(context, peer['id']),
         trailing: const Icon(Icons.sms),
-        subtitle: Text('[' + peer['user_agent'] + ']'),
+        subtitle: Text('[${peer['user_agent']}]'),
       ),
       const Divider()
     ]);
@@ -140,15 +145,10 @@ class _DataChannelSampleState extends State<DataChannelSample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Data Channel Sample' +
-            (_selfId != null ? ' [Your ID ($_selfId)] ' : '')),
-        actions: const <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: null,
-            tooltip: 'setup',
-          ),
-        ],
+        title: Text(
+          'Data Channel Sample' +
+              (_selfId != null ? ' [Your ID ($_selfId)] ' : ''),
+        ),
       ),
       floatingActionButton: _inCalling
           ? FloatingActionButton(
