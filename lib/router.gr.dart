@@ -12,7 +12,7 @@
 
 import 'package:auto_route/auto_route.dart' as _i6;
 import 'package:brumaire_frontend/ui/pages/action_page.dart' as _i1;
-import 'package:brumaire_frontend/ui/pages/call_page.dart' as _i5;
+import 'package:brumaire_frontend/ui/pages/call_page/call_page.dart' as _i5;
 import 'package:brumaire_frontend/ui/pages/chat_page.dart' as _i3;
 import 'package:brumaire_frontend/ui/pages/contact_page.dart' as _i4;
 import 'package:brumaire_frontend/ui/pages/splash_page.dart' as _i2;
