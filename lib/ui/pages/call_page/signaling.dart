@@ -28,7 +28,6 @@ class Session {
   String pid;
   String sid;
   RTCPeerConnection? pc;
-  RTCDataChannel? dc;
   List<RTCIceCandidate> remoteCandidates = [];
 }
 
@@ -56,9 +55,6 @@ class Signaling {
       onDataChannelMessage;
   Function(Session session, RTCDataChannel dc)? onDataChannel;
 
-  String get sdpSemantics =>
-      WebRTC.platformIsWindows ? 'plan-b' : 'unified-plan';
-
   Map<String, dynamic> _iceServers = {
     'iceServers': [
       // {'url': 'stun:stun.l.google.com:19302'},
@@ -83,14 +79,6 @@ class Signaling {
     'optional': [
       {'DtlsSrtpKeyAgreement': true},
     ]
-  };
-
-  final Map<String, dynamic> _dcConstraints = {
-    'mandatory': {
-      'OfferToReceiveAudio': false,
-      'OfferToReceiveVideo': false,
-    },
-    'optional': [],
   };
 
   close() async {
@@ -120,9 +108,6 @@ class Signaling {
       media: media,
     );
     _sessions[sessionId] = session;
-    if (media == 'data') {
-      _createDataChannel(session);
-    }
     _createOffer(session, media);
     onCallStateChange?.call(session, CallState.callStateNew);
   }
@@ -148,7 +133,7 @@ class Signaling {
         {
           List<dynamic> peers = data;
           if (onPeersUpdate != null) {
-            Map<String, dynamic> event = Map<String, dynamic>();
+            Map<String, dynamic> event = {};
             event['self'] = _selfId;
             event['peers'] = peers;
             onPeersUpdate?.call(event);
@@ -185,8 +170,9 @@ class Signaling {
         var sessionId = data['session_id'];
         var session = _sessions[sessionId];
         session?.pc?.setRemoteDescription(
-            RTCSessionDescription(description['sdp'], description['type']));
-
+          RTCSessionDescription(description['sdp'], description['type']),
+        );
+        onCallStateChange?.call(session!, CallState.callStateNew);
         break;
       case 'candidate':
         var peerId = data['from'];
@@ -315,34 +301,18 @@ class Signaling {
     required String media,
   }) async {
     var newSession = session ?? Session(sid: sessionId, pid: peerId);
-    if (media != 'data') {
-      _localStream = await createStream(media);
-    }
-    RTCPeerConnection pc = await createPeerConnection({
-      ..._iceServers,
-      ...{'sdpSemantics': sdpSemantics}
-    }, _config);
-    if (media != 'data') {
-      switch (sdpSemantics) {
-        case 'plan-b':
-          pc.onAddStream = (MediaStream stream) {
-            onAddRemoteStream?.call(newSession, stream);
-            _remoteStreams.add(stream);
-          };
-          await pc.addStream(_localStream!);
-          break;
-        case 'unified-plan':
-          pc.onTrack = (event) {
-            if (event.track.kind == 'video') {
-              onAddRemoteStream?.call(newSession, event.streams[0]);
-            }
-          };
-          _localStream!.getTracks().forEach((track) {
-            pc.addTrack(track, _localStream!);
-          });
-          break;
+
+    _localStream = await createStream(media);
+    RTCPeerConnection pc =
+        await createPeerConnection({..._iceServers}, _config);
+    pc.onTrack = (event) {
+      if (event.track.kind == 'video') {
+        onAddRemoteStream?.call(newSession, event.streams[0]);
       }
-    }
+    };
+    _localStream!.getTracks().forEach((track) {
+      pc.addTrack(track, _localStream!);
+    });
     pc.onIceCandidate = (candidate) async {
       await Future.delayed(
         const Duration(seconds: 1),
@@ -371,36 +341,13 @@ class Signaling {
       });
     };
 
-    pc.onDataChannel = (channel) {
-      _addDataChannel(newSession, channel);
-    };
-
     newSession.pc = pc;
     return newSession;
   }
 
-  void _addDataChannel(Session session, RTCDataChannel channel) {
-    channel.onDataChannelState = (e) {};
-    channel.onMessage = (RTCDataChannelMessage data) {
-      onDataChannelMessage?.call(session, channel, data);
-    };
-    session.dc = channel;
-    onDataChannel?.call(session, channel);
-  }
-
-  Future<void> _createDataChannel(Session session,
-      {label = 'fileTransfer'}) async {
-    RTCDataChannelInit dataChannelDict = RTCDataChannelInit()
-      ..maxRetransmits = 30;
-    RTCDataChannel channel =
-        await session.pc!.createDataChannel(label, dataChannelDict);
-    _addDataChannel(session, channel);
-  }
-
   Future<void> _createOffer(Session session, String media) async {
     try {
-      RTCSessionDescription s =
-          await session.pc!.createOffer(media == 'data' ? _dcConstraints : {});
+      RTCSessionDescription s = await session.pc!.createOffer({});
       await session.pc!.setLocalDescription(s);
       _send('offer', {
         'to': session.pid,
@@ -416,8 +363,7 @@ class Signaling {
 
   Future<void> _createAnswer(Session session, String media) async {
     try {
-      RTCSessionDescription s =
-          await session.pc!.createAnswer(media == 'data' ? _dcConstraints : {});
+      RTCSessionDescription s = await session.pc!.createAnswer({});
       await session.pc!.setLocalDescription(s);
       _send('answer', {
         'to': session.pid,
@@ -431,7 +377,7 @@ class Signaling {
   }
 
   _send(event, data) {
-    var request = Map();
+    var request = {};
     request["type"] = event;
     request["data"] = data;
     _socket?.send(_encoder.convert(request));
@@ -447,21 +393,20 @@ class Signaling {
     }
     _sessions.forEach((key, sess) async {
       await sess.pc?.close();
-      await sess.dc?.close();
     });
     _sessions.clear();
   }
 
   void _closeSessionByPeerId(String peerId) {
-    var session;
+    Session? session;
     _sessions.removeWhere((String key, Session sess) {
       var ids = key.split('-');
       session = sess;
       return peerId == ids[0] || peerId == ids[1];
     });
     if (session != null) {
-      _closeSession(session);
-      onCallStateChange?.call(session, CallState.callStateBye);
+      _closeSession(session!);
+      onCallStateChange?.call(session!, CallState.callStateBye);
     }
   }
 
@@ -473,6 +418,5 @@ class Signaling {
     _localStream = null;
 
     await session.pc?.close();
-    await session.dc?.close();
   }
 }

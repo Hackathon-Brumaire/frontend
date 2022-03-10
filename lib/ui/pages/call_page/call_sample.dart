@@ -44,6 +44,10 @@ class _CallSampleState extends State<CallSample> {
 
   void _connect() async {
     _signaling ??= Signaling(widget.host)..connect();
+    var loggerNoStack = Logger(
+      printer: PrettyPrinter(methodCount: 0),
+    );
+    loggerNoStack.w('call sample connect');
     _signaling?.onSignalingStateChange = (SignalingState state) {
       switch (state) {
         case SignalingState.connectionClosed:
@@ -56,6 +60,10 @@ class _CallSampleState extends State<CallSample> {
     };
 
     _signaling?.onCallStateChange = (Session session, CallState state) {
+      var loggerNoStack = Logger(
+        printer: PrettyPrinter(methodCount: 0),
+      );
+      loggerNoStack.w('onCallStateChange $state');
       switch (state) {
         case CallState.callStateNew:
           setState(() {
@@ -72,6 +80,7 @@ class _CallSampleState extends State<CallSample> {
           });
           break;
         case CallState.callStateInvite:
+          loggerNoStack.w('callStateInvite');
           break;
         case CallState.callStateConnected:
           setState(() {
