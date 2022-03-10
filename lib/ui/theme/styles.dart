@@ -15,6 +15,7 @@ class AppColors {
   Color get black => Colors.black;
   Color get lightBlue => Colors.lightBlueAccent;
   Color get lightGreen => Colors.lightGreen;
+  Color get green => Color(0xFF607067);
   Color get brown => const Color(0xFFaf9387);
 }
 

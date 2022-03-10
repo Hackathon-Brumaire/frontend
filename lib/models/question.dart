@@ -4,6 +4,11 @@
 
 import 'dart:convert';
 
+
+enum EventType{
+    welcome, question, noMoreQuestion
+}
+
 Question questionFromJson(String str) => Question.fromJson(json.decode(str));
 
 String questionToJson(Question data) => json.encode(data.toJson());
@@ -13,6 +18,7 @@ class Question {
         required this.id,
         required this.title,
         required this.nextAnswers,
+        this.type,
         this.media,
     });
 
@@ -20,6 +26,7 @@ class Question {
     String title;
     List<NextAnswer> nextAnswers;
     dynamic media;
+    EventType? type;
 
     factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json["id"],

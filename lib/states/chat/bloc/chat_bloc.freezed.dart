@@ -22,9 +22,15 @@ class _$ChatEventTearOff {
     return const OnConnect();
   }
 
-  OnChange onChange(dynamic d) {
-    return OnChange(
+  OnSocketEventChange onSocketEventChange(SocketData d) {
+    return OnSocketEventChange(
       d,
+    );
+  }
+
+  OnReply onReply(String id) {
+    return OnReply(
+      id,
     );
   }
 }
@@ -37,38 +43,44 @@ mixin _$ChatEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() onConnect,
-    required TResult Function(dynamic d) onChange,
+    required TResult Function(SocketData d) onSocketEventChange,
+    required TResult Function(String id) onReply,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? onConnect,
-    TResult Function(dynamic d)? onChange,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onConnect,
-    TResult Function(dynamic d)? onChange,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(OnConnect value) onConnect,
-    required TResult Function(OnChange value) onChange,
+    required TResult Function(OnSocketEventChange value) onSocketEventChange,
+    required TResult Function(OnReply value) onReply,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnConnect value)? onConnect,
-    TResult Function(OnChange value)? onChange,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnConnect value)? onConnect,
-    TResult Function(OnChange value)? onChange,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -128,7 +140,8 @@ class _$OnConnect implements OnConnect {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() onConnect,
-    required TResult Function(dynamic d) onChange,
+    required TResult Function(SocketData d) onSocketEventChange,
+    required TResult Function(String id) onReply,
   }) {
     return onConnect();
   }
@@ -137,7 +150,8 @@ class _$OnConnect implements OnConnect {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? onConnect,
-    TResult Function(dynamic d)? onChange,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
   }) {
     return onConnect?.call();
   }
@@ -146,7 +160,8 @@ class _$OnConnect implements OnConnect {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onConnect,
-    TResult Function(dynamic d)? onChange,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
     required TResult orElse(),
   }) {
     if (onConnect != null) {
@@ -159,7 +174,8 @@ class _$OnConnect implements OnConnect {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(OnConnect value) onConnect,
-    required TResult Function(OnChange value) onChange,
+    required TResult Function(OnSocketEventChange value) onSocketEventChange,
+    required TResult Function(OnReply value) onReply,
   }) {
     return onConnect(this);
   }
@@ -168,7 +184,8 @@ class _$OnConnect implements OnConnect {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnConnect value)? onConnect,
-    TResult Function(OnChange value)? onChange,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
   }) {
     return onConnect?.call(this);
   }
@@ -177,7 +194,8 @@ class _$OnConnect implements OnConnect {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnConnect value)? onConnect,
-    TResult Function(OnChange value)? onChange,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
     required TResult orElse(),
   }) {
     if (onConnect != null) {
@@ -192,52 +210,64 @@ abstract class OnConnect implements ChatEvent {
 }
 
 /// @nodoc
-abstract class $OnChangeCopyWith<$Res> {
-  factory $OnChangeCopyWith(OnChange value, $Res Function(OnChange) then) =
-      _$OnChangeCopyWithImpl<$Res>;
-  $Res call({dynamic d});
+abstract class $OnSocketEventChangeCopyWith<$Res> {
+  factory $OnSocketEventChangeCopyWith(
+          OnSocketEventChange value, $Res Function(OnSocketEventChange) then) =
+      _$OnSocketEventChangeCopyWithImpl<$Res>;
+  $Res call({SocketData d});
+
+  $SocketDataCopyWith<$Res> get d;
 }
 
 /// @nodoc
-class _$OnChangeCopyWithImpl<$Res> extends _$ChatEventCopyWithImpl<$Res>
-    implements $OnChangeCopyWith<$Res> {
-  _$OnChangeCopyWithImpl(OnChange _value, $Res Function(OnChange) _then)
-      : super(_value, (v) => _then(v as OnChange));
+class _$OnSocketEventChangeCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res>
+    implements $OnSocketEventChangeCopyWith<$Res> {
+  _$OnSocketEventChangeCopyWithImpl(
+      OnSocketEventChange _value, $Res Function(OnSocketEventChange) _then)
+      : super(_value, (v) => _then(v as OnSocketEventChange));
 
   @override
-  OnChange get _value => super._value as OnChange;
+  OnSocketEventChange get _value => super._value as OnSocketEventChange;
 
   @override
   $Res call({
     Object? d = freezed,
   }) {
-    return _then(OnChange(
+    return _then(OnSocketEventChange(
       d == freezed
           ? _value.d
           : d // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as SocketData,
     ));
+  }
+
+  @override
+  $SocketDataCopyWith<$Res> get d {
+    return $SocketDataCopyWith<$Res>(_value.d, (value) {
+      return _then(_value.copyWith(d: value));
+    });
   }
 }
 
 /// @nodoc
 
-class _$OnChange implements OnChange {
-  const _$OnChange(this.d);
+class _$OnSocketEventChange implements OnSocketEventChange {
+  const _$OnSocketEventChange(this.d);
 
   @override
-  final dynamic d;
+  final SocketData d;
 
   @override
   String toString() {
-    return 'ChatEvent.onChange(d: $d)';
+    return 'ChatEvent.onSocketEventChange(d: $d)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is OnChange &&
+            other is OnSocketEventChange &&
             const DeepCollectionEquality().equals(other.d, d));
   }
 
@@ -247,36 +277,39 @@ class _$OnChange implements OnChange {
 
   @JsonKey(ignore: true)
   @override
-  $OnChangeCopyWith<OnChange> get copyWith =>
-      _$OnChangeCopyWithImpl<OnChange>(this, _$identity);
+  $OnSocketEventChangeCopyWith<OnSocketEventChange> get copyWith =>
+      _$OnSocketEventChangeCopyWithImpl<OnSocketEventChange>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() onConnect,
-    required TResult Function(dynamic d) onChange,
+    required TResult Function(SocketData d) onSocketEventChange,
+    required TResult Function(String id) onReply,
   }) {
-    return onChange(d);
+    return onSocketEventChange(d);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? onConnect,
-    TResult Function(dynamic d)? onChange,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
   }) {
-    return onChange?.call(d);
+    return onSocketEventChange?.call(d);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onConnect,
-    TResult Function(dynamic d)? onChange,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
     required TResult orElse(),
   }) {
-    if (onChange != null) {
-      return onChange(d);
+    if (onSocketEventChange != null) {
+      return onSocketEventChange(d);
     }
     return orElse();
   }
@@ -285,41 +318,180 @@ class _$OnChange implements OnChange {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(OnConnect value) onConnect,
-    required TResult Function(OnChange value) onChange,
+    required TResult Function(OnSocketEventChange value) onSocketEventChange,
+    required TResult Function(OnReply value) onReply,
   }) {
-    return onChange(this);
+    return onSocketEventChange(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnConnect value)? onConnect,
-    TResult Function(OnChange value)? onChange,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
   }) {
-    return onChange?.call(this);
+    return onSocketEventChange?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnConnect value)? onConnect,
-    TResult Function(OnChange value)? onChange,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
     required TResult orElse(),
   }) {
-    if (onChange != null) {
-      return onChange(this);
+    if (onSocketEventChange != null) {
+      return onSocketEventChange(this);
     }
     return orElse();
   }
 }
 
-abstract class OnChange implements ChatEvent {
-  const factory OnChange(dynamic d) = _$OnChange;
+abstract class OnSocketEventChange implements ChatEvent {
+  const factory OnSocketEventChange(SocketData d) = _$OnSocketEventChange;
 
-  dynamic get d;
+  SocketData get d;
   @JsonKey(ignore: true)
-  $OnChangeCopyWith<OnChange> get copyWith =>
+  $OnSocketEventChangeCopyWith<OnSocketEventChange> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OnReplyCopyWith<$Res> {
+  factory $OnReplyCopyWith(OnReply value, $Res Function(OnReply) then) =
+      _$OnReplyCopyWithImpl<$Res>;
+  $Res call({String id});
+}
+
+/// @nodoc
+class _$OnReplyCopyWithImpl<$Res> extends _$ChatEventCopyWithImpl<$Res>
+    implements $OnReplyCopyWith<$Res> {
+  _$OnReplyCopyWithImpl(OnReply _value, $Res Function(OnReply) _then)
+      : super(_value, (v) => _then(v as OnReply));
+
+  @override
+  OnReply get _value => super._value as OnReply;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+  }) {
+    return _then(OnReply(
+      id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$OnReply implements OnReply {
+  const _$OnReply(this.id);
+
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'ChatEvent.onReply(id: $id)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is OnReply &&
+            const DeepCollectionEquality().equals(other.id, id));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(id));
+
+  @JsonKey(ignore: true)
+  @override
+  $OnReplyCopyWith<OnReply> get copyWith =>
+      _$OnReplyCopyWithImpl<OnReply>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onConnect,
+    required TResult Function(SocketData d) onSocketEventChange,
+    required TResult Function(String id) onReply,
+  }) {
+    return onReply(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onConnect,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
+  }) {
+    return onReply?.call(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onConnect,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
+    required TResult orElse(),
+  }) {
+    if (onReply != null) {
+      return onReply(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnConnect value) onConnect,
+    required TResult Function(OnSocketEventChange value) onSocketEventChange,
+    required TResult Function(OnReply value) onReply,
+  }) {
+    return onReply(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
+  }) {
+    return onReply?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
+    required TResult orElse(),
+  }) {
+    if (onReply != null) {
+      return onReply(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnReply implements ChatEvent {
+  const factory OnReply(String id) = _$OnReply;
+
+  String get id;
+  @JsonKey(ignore: true)
+  $OnReplyCopyWith<OnReply> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -327,7 +499,7 @@ class _$ChatStateTearOff {
   const _$ChatStateTearOff();
 
   _ChatState call(
-      {required List<dynamic> history, required List<dynamic> feed}) {
+      {required List<SocketData> history, required List<SocketData> feed}) {
     return _ChatState(
       history: history,
       feed: feed,
@@ -340,8 +512,8 @@ const $ChatState = _$ChatStateTearOff();
 
 /// @nodoc
 mixin _$ChatState {
-  List<dynamic> get history => throw _privateConstructorUsedError;
-  List<dynamic> get feed => throw _privateConstructorUsedError;
+  List<SocketData> get history => throw _privateConstructorUsedError;
+  List<SocketData> get feed => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChatStateCopyWith<ChatState> get copyWith =>
@@ -352,7 +524,7 @@ mixin _$ChatState {
 abstract class $ChatStateCopyWith<$Res> {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
       _$ChatStateCopyWithImpl<$Res>;
-  $Res call({List<dynamic> history, List<dynamic> feed});
+  $Res call({List<SocketData> history, List<SocketData> feed});
 }
 
 /// @nodoc
@@ -372,11 +544,11 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
       history: history == freezed
           ? _value.history
           : history // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<SocketData>,
       feed: feed == freezed
           ? _value.feed
           : feed // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<SocketData>,
     ));
   }
 }
@@ -387,7 +559,7 @@ abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
           _ChatState value, $Res Function(_ChatState) then) =
       __$ChatStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<dynamic> history, List<dynamic> feed});
+  $Res call({List<SocketData> history, List<SocketData> feed});
 }
 
 /// @nodoc
@@ -408,11 +580,11 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
       history: history == freezed
           ? _value.history
           : history // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<SocketData>,
       feed: feed == freezed
           ? _value.feed
           : feed // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<SocketData>,
     ));
   }
 }
@@ -423,9 +595,9 @@ class _$_ChatState implements _ChatState {
   const _$_ChatState({required this.history, required this.feed});
 
   @override
-  final List<dynamic> history;
+  final List<SocketData> history;
   @override
-  final List<dynamic> feed;
+  final List<SocketData> feed;
 
   @override
   String toString() {
@@ -455,13 +627,13 @@ class _$_ChatState implements _ChatState {
 
 abstract class _ChatState implements ChatState {
   const factory _ChatState(
-      {required List<dynamic> history,
-      required List<dynamic> feed}) = _$_ChatState;
+      {required List<SocketData> history,
+      required List<SocketData> feed}) = _$_ChatState;
 
   @override
-  List<dynamic> get history;
+  List<SocketData> get history;
   @override
-  List<dynamic> get feed;
+  List<SocketData> get feed;
   @override
   @JsonKey(ignore: true)
   _$ChatStateCopyWith<_ChatState> get copyWith =>
