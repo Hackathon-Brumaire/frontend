@@ -24,9 +24,15 @@ class ActionPage extends StatelessWidget {
                   onTap: () => context.router.push(const CallRoute()),
                 ),
                 CardLink(
-                  title: 'Chatter avec nos assistants',
-                  text: 'Vous voulez une chatter avec un technicien ?',
+                  title: 'Parler avec nos assistants',
+                  text: 'Vous voulez parler avec un technicien ?',
                   image: 'assets/images/chat.jpg',
+                  onTap: () => context.router.push(const ChatRoute()),
+                ),
+                CardLink(
+                  title: 'Administration',
+                  text: '',
+                  image: 'assets/images/administration.jpg',
                   onTap: () => context.router.push(const ChatRoute()),
                 ),
                 const VideoReader(

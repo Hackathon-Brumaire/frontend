@@ -183,7 +183,10 @@ class _CallSampleState extends State<CallSample> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   FloatingActionButton(
-                    child: const Icon(Icons.switch_camera),
+                    child: const Icon(
+                      Icons.switch_camera,
+                      color: Colors.black,
+                    ),
                     onPressed: _switchCamera,
                   ),
                   FloatingActionButton(
@@ -193,7 +196,10 @@ class _CallSampleState extends State<CallSample> {
                     backgroundColor: Colors.redAccent,
                   ),
                   FloatingActionButton(
-                    child: const Icon(Icons.mic_off),
+                    child: const Icon(
+                      Icons.mic_off,
+                      color: Colors.black,
+                    ),
                     onPressed: _muteMic,
                   )
                 ],

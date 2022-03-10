@@ -130,14 +130,12 @@ class Signaling {
 
     switch (mapData['type']) {
       case 'peers':
-        {
-          List<dynamic> peers = data;
-          if (onPeersUpdate != null) {
-            Map<String, dynamic> event = {};
-            event['self'] = _selfId;
-            event['peers'] = peers;
-            onPeersUpdate?.call(event);
-          }
+        List<dynamic> peers = data;
+        if (onPeersUpdate != null) {
+          Map<String, dynamic> event = {};
+          event['self'] = _selfId;
+          event['peers'] = peers;
+          onPeersUpdate?.call(event);
         }
         break;
       case 'offer':
@@ -187,13 +185,18 @@ class Signaling {
 
         if (session != null) {
           if (session.pc != null) {
-            await session.pc?.addCandidate(candidate);
+            await session.pc!.addCandidate(candidate);
           } else {
             session.remoteCandidates.add(candidate);
+            onCallStateChange?.call(session, CallState.callStateNew);
           }
         } else {
           _sessions[sessionId] = Session(pid: peerId, sid: sessionId)
             ..remoteCandidates.add(candidate);
+          onCallStateChange?.call(
+            _sessions[sessionId]!,
+            CallState.callStateNew,
+          );
         }
 
         break;
