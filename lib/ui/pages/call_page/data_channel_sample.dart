@@ -115,16 +115,12 @@ class _DataChannelSampleState extends State<DataChannelSample> {
   _buildRow(context, peer) {
     var self = (peer['id'] == _selfId);
     return ListBody(children: <Widget>[
-      ListTile(
-        title: Text(
-          self
-              ? peer['name'] + ', ID: ${peer['id']} ' + ' [Your self]'
-              : peer['name'] + ', ID: ${peer['id']} ',
+      if (!self)
+        ListTile(
+          title: Text('${peer['name']}, ID: ${peer['id']} '),
+          onTap: () => _invitePeer(context, peer['id']),
+          trailing: const Icon(Icons.sms),
         ),
-        onTap: () => _invitePeer(context, peer['id']),
-        trailing: const Icon(Icons.sms),
-        subtitle: Text('[${peer['user_agent']}]'),
-      ),
       const Divider()
     ]);
   }

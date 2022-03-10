@@ -139,29 +139,25 @@ class _CallSampleState extends State<CallSample> {
   _buildRow(context, peer) {
     var self = (peer['id'] == _selfId);
     return ListBody(children: <Widget>[
-      ListTile(
-        title: Text(
-          self
-              ? peer['name'] + ', ID: ${peer['id']} ' + ' [Your self]'
-              : peer['name'] + ', ID: ${peer['id']} ',
-        ),
-        onTap: null,
-        trailing: SizedBox(
-          width: 100.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(self ? Icons.close : Icons.videocam,
-                    color: self ? Colors.grey : Colors.black),
-                onPressed: () => _invitePeer(context, peer['id']),
-                tooltip: 'Video calling',
-              ),
-            ],
+      if (!self)
+        ListTile(
+          title: Text('ID du client: ${peer['id']} '),
+          onTap: null,
+          trailing: SizedBox(
+            width: 100.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(self ? Icons.close : Icons.videocam,
+                      color: self ? Colors.grey : Colors.black),
+                  onPressed: () => _invitePeer(context, peer['id']),
+                  tooltip: 'Video calling',
+                ),
+              ],
+            ),
           ),
         ),
-        subtitle: Text('[${peer['user_agent']}]'),
-      ),
       const Divider()
     ]);
   }
@@ -170,8 +166,7 @@ class _CallSampleState extends State<CallSample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('P2P Call Sample' +
-            (_selfId != null ? ' [Your ID ($_selfId)] ' : '')),
+        title: Text((_selfId != null ? ' Mon Id : $_selfId' : '')),
         actions: const <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
