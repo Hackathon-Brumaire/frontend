@@ -1,17 +1,17 @@
+import 'package:brumaire_frontend/models/conversation_history.dart';
 import 'package:brumaire_frontend/models/question.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:brumaire_frontend/models/welcome.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-
 import 'package:flutter/material.dart';
 
-class SocketClass extends StatefulWidget {
-  const SocketClass({ Key? key }) : super(key: key);
+class Sockets extends StatefulWidget {
+  const Sockets({ Key? key }) : super(key: key);
 
   @override
-  State<SocketClass> createState() => _SocketClassState();
+  State<Sockets> createState() => _SocketsState();
 }
 
-class _SocketClassState extends State<SocketClass> {
+class _SocketsState extends State<Sockets> {
 
   late Socket socket;
   
@@ -19,10 +19,13 @@ class _SocketClassState extends State<SocketClass> {
   void initState() {
     super.initState();
     connectToServer();
+    sendMessage(1);
+    sendMessage(3);
   }
 
   void connectToServer() {
-    try {
+    try {     
+      // Configure socket transports must be sepecified
       socket = io('https://brumaire.nospy.fr/', <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
@@ -35,55 +38,33 @@ class _SocketClassState extends State<SocketClass> {
       socket.on('connect', (_) => print('connect: ${socket.id}'));
       socket.on('welcome', (data) => handleWelcome(data));
       socket.on('question', (data) => handleQuestion(data));
+      socket.on('noMoreQuestion', (data) => handleEndOfQuestions(data));
       socket.on('disconnect', (_) => print('disconnect'));
-      socket.on('fromServer', (_) => print(_));
+      //add listeners
+      // socket.clearListeners();
+      // socket.disconnect();
 
     } catch (e) {
       print(e.toString());
-    }
+    }   
   }
-
 
   handleWelcome(Map<String, dynamic> data) {
-    print(data["text"]);
-    print(data["createdAt"]);
-  }
-  
-  handleQuestion(Map<String, dynamic> data) {
-    Question question = Question.fromJson(data);
-    print(question);
+    Welcome welcome = Welcome.fromJson(data);
   }
 
-  // Send update of user's typing status 
-  sendTyping(bool typing) {
-    socket.emit("typing",
-      {
-        "id": socket.id,
-         "typing": typing,
-      });
+  handleQuestion(Map<String, dynamic> data) {
+    Question question = Question.fromJson(data);
   }
-   
-  // Listen to update of typing status from connected users
-  void handleTyping(Map<String, dynamic> data) {
-    print(data);
+
+  handleEndOfQuestions(List<dynamic> data) {
+    List<ConversationHistory> conversations = List<ConversationHistory>.from(data.map((x) => ConversationHistory.fromJson(x)));    
   }
 
   // Send a Message to the server
-  sendMessage(String message) {
-      socket.emit("sendMessage",
-        {
-          "id": socket.id,
-          "message": message, // Message to be sent
-          "timestamp": DateTime.now().millisecondsSinceEpoch,
-        },
-      );
+  sendMessage(int answerId) {
+      socket.emit("sendMessage", answerId);
   }
-
-  // Listen to all message events from connected users
-  void handleMessage(Map<String, dynamic> data) {
-    print(data);
-  }
-
 
   @override
   Widget build(BuildContext context) {
