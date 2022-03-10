@@ -39,7 +39,7 @@ class _SplashPageState extends State<SplashPage>
   Widget build(BuildContext context) {
     _controller
         .forward()
-        .whenComplete(() => context.router.push(const ActionRoute()));
+        .whenComplete(() => context.router.push(const AllConversationsRoute()));
     return Scaffold(
       body: SafeArea(
         child: SlideTransition(
