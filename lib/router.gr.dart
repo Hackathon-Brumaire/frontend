@@ -13,9 +13,10 @@
 import 'package:auto_route/auto_route.dart' as _i8;
 import 'package:brumaire_frontend/ui/pages/action_page.dart' as _i1;
 import 'package:brumaire_frontend/ui/pages/all_conversations_page.dart' as _i6;
-import 'package:brumaire_frontend/ui/pages/call_page/call_page.dart' as _i5;
+import 'package:brumaire_frontend/ui/pages/call_page/call_reparator_page.dart'
+    as _i4;
 import 'package:brumaire_frontend/ui/pages/chat_page.dart' as _i3;
-import 'package:brumaire_frontend/ui/pages/contact_page.dart' as _i4;
+import 'package:brumaire_frontend/ui/pages/contact_page.dart' as _i5;
 import 'package:brumaire_frontend/ui/pages/end_of_call_page.dart' as _i7;
 import 'package:brumaire_frontend/ui/pages/splash_page.dart' as _i2;
 import 'package:flutter/material.dart' as _i9;
@@ -47,17 +48,17 @@ class AppRouter extends _i8.RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    ContactRoute.name: (routeData) {
+    CallReparatorRoute.name: (routeData) {
       return _i8.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i4.ContactPage(),
+          child: const _i4.CallReparatorPage(),
           opaque: true,
           barrierDismissible: false);
     },
-    CallRoute.name: (routeData) {
+    ContactRoute.name: (routeData) {
       return _i8.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i5.CallPage(),
+          child: const _i5.ContactPage(),
           opaque: true,
           barrierDismissible: false);
     },
@@ -84,8 +85,8 @@ class AppRouter extends _i8.RootStackRouter {
         _i8.RouteConfig(ActionRoute.name, path: '/action'),
         _i8.RouteConfig(SplashRoute.name, path: '/splash'),
         _i8.RouteConfig(ChatRoute.name, path: '/chat'),
+        _i8.RouteConfig(CallReparatorRoute.name, path: 'call-reparator'),
         _i8.RouteConfig(ContactRoute.name, path: '/contact'),
-        _i8.RouteConfig(CallRoute.name, path: '/call'),
         _i8.RouteConfig(AllConversationsRoute.name, path: '/conversations'),
         _i8.RouteConfig(EndOfCallRoute.name, path: '/end-of-call')
       ];
@@ -116,19 +117,20 @@ class ChatRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.ContactPage]
+/// [_i4.CallReparatorPage]
+class CallReparatorRoute extends _i8.PageRouteInfo<void> {
+  const CallReparatorRoute()
+      : super(CallReparatorRoute.name, path: 'call-reparator');
+
+  static const String name = 'CallReparatorRoute';
+}
+
+/// generated route for
+/// [_i5.ContactPage]
 class ContactRoute extends _i8.PageRouteInfo<void> {
   const ContactRoute() : super(ContactRoute.name, path: '/contact');
 
   static const String name = 'ContactRoute';
-}
-
-/// generated route for
-/// [_i5.CallPage]
-class CallRoute extends _i8.PageRouteInfo<void> {
-  const CallRoute() : super(CallRoute.name, path: '/call');
-
-  static const String name = 'CallRoute';
 }
 
 /// generated route for

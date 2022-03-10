@@ -2,7 +2,7 @@ import 'package:brumaire_frontend/models/question.dart';
 import 'package:brumaire_frontend/models/welcome.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'SocketData.freezed.dart';
+part 'socket_data.freezed.dart';
 
 @freezed
 class SocketData with _$SocketData {

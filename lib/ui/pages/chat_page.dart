@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/models/question.dart';
 import 'package:brumaire_frontend/models/welcome.dart';
+import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/states/chat/bloc/chat_bloc.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:brumaire_frontend/ui/theme/styles.dart';
@@ -90,6 +91,15 @@ class _ChatPageState extends State<ChatPage> with SingleTickerProviderStateMixin
                       },
                       itemCount: items.length,
                     ),
+                    Positioned(
+                        bottom: 20,
+                        child: Column(
+                          children: [
+                      ElevatedButton(onPressed: (){
+                        context.router.push(CallReparatorRoute());
+                      }, child: Text("Oui")),
+                      ElevatedButton(onPressed: (){}, child: Text("Non")),
+                    ],))
 
                   ],
                 );
