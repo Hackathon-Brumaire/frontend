@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CardLink extends StatelessWidget {
-  const CardLink(
-      {Key? key,
-      required this.title,
-      required this.text,
-      required this.image,
-      required this.onTap})
-      : super(key: key);
+  const CardLink({
+    Key? key,
+    required this.title,
+    required this.text,
+    required this.image,
+    required this.onTap,
+  }) : super(key: key);
 
   final String title;
   final String text;

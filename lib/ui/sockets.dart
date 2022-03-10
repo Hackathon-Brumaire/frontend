@@ -5,16 +5,15 @@ import 'package:socket_io_client/socket_io_client.dart';
 import 'package:flutter/material.dart';
 
 class Sockets extends StatefulWidget {
-  const Sockets({ Key? key }) : super(key: key);
+  const Sockets({Key? key}) : super(key: key);
 
   @override
   State<Sockets> createState() => _SocketsState();
 }
 
 class _SocketsState extends State<Sockets> {
-
   late Socket socket;
-  
+
   @override
   void initState() {
     super.initState();
@@ -24,16 +23,16 @@ class _SocketsState extends State<Sockets> {
   }
 
   void connectToServer() {
-    try {     
+    try {
       // Configure socket transports must be sepecified
       socket = io('https://brumaire.nospy.fr/', <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
       });
-     
+
       // Connect to websocket
       socket.connect();
-     
+
       // Handle socket events
       socket.on('connect', (_) => print('connect: ${socket.id}'));
       socket.on('welcome', (data) => handleWelcome(data));
@@ -46,7 +45,7 @@ class _SocketsState extends State<Sockets> {
 
     } catch (e) {
       print(e.toString());
-    }   
+    }
   }
 
   handleWelcome(Map<String, dynamic> data) {
@@ -58,18 +57,17 @@ class _SocketsState extends State<Sockets> {
   }
 
   handleEndOfQuestions(List<dynamic> data) {
-    List<ConversationHistory> conversations = List<ConversationHistory>.from(data.map((x) => ConversationHistory.fromJson(x)));    
+    List<ConversationHistory> conversations = List<ConversationHistory>.from(
+        data.map((x) => ConversationHistory.fromJson(x)));
   }
 
   // Send a Message to the server
   sendMessage(int answerId) {
-      socket.emit("sendMessage", answerId);
+    socket.emit("sendMessage", answerId);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-    );
+    return Container();
   }
 }

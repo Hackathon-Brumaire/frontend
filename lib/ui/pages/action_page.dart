@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/ui/widgets/card_link.dart';
 import 'package:brumaire_frontend/ui/widgets/video_reader.dart';
 import 'package:flutter/material.dart';
+
+import '../../router.gr.dart';
 
 class ActionPage extends StatelessWidget {
   const ActionPage({Key? key}) : super(key: key);
@@ -24,10 +25,17 @@ class ActionPage extends StatelessWidget {
                   onTap: () => context.router.push(const CallRoute()),
                 ),
                 CardLink(
-                  title: 'Chatter avec nos assistants',
-                  text: 'Vous voulez une chatter avec un technicien ?',
+                  title: 'Parler avec nos assistants',
+                  text: 'Vous voulez parler avec un technicien ?',
                   image: 'assets/images/chat.jpg',
                   onTap: () => context.router.push(const ChatRoute()),
+                ),
+                CardLink(
+                  title: 'Administration',
+                  text: '',
+                  image: 'assets/images/administration.jpg',
+                  onTap: () =>
+                      context.router.push(const AllConversationsRoute()),
                 ),
                 const VideoReader(
                   videoUrl: "https://www.youtube.com/watch?v=7eNXmBQgUQc",
