@@ -18,8 +18,14 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ChatEventTearOff {
   const _$ChatEventTearOff();
 
-  _Started started() {
-    return const _Started();
+  OnConnect onConnect() {
+    return const OnConnect();
+  }
+
+  OnChange onChange(dynamic d) {
+    return OnChange(
+      d,
+    );
   }
 }
 
@@ -30,33 +36,39 @@ const $ChatEvent = _$ChatEventTearOff();
 mixin _$ChatEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
+    required TResult Function() onConnect,
+    required TResult Function(dynamic d) onChange,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? started,
+    TResult Function()? onConnect,
+    TResult Function(dynamic d)? onChange,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
+    TResult Function()? onConnect,
+    TResult Function(dynamic d)? onChange,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
+    required TResult Function(OnConnect value) onConnect,
+    required TResult Function(OnChange value) onChange,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Started value)? started,
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnChange value)? onChange,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnChange value)? onChange,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -78,35 +90,35 @@ class _$ChatEventCopyWithImpl<$Res> implements $ChatEventCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$StartedCopyWith<$Res> {
-  factory _$StartedCopyWith(_Started value, $Res Function(_Started) then) =
-      __$StartedCopyWithImpl<$Res>;
+abstract class $OnConnectCopyWith<$Res> {
+  factory $OnConnectCopyWith(OnConnect value, $Res Function(OnConnect) then) =
+      _$OnConnectCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$StartedCopyWithImpl<$Res> extends _$ChatEventCopyWithImpl<$Res>
-    implements _$StartedCopyWith<$Res> {
-  __$StartedCopyWithImpl(_Started _value, $Res Function(_Started) _then)
-      : super(_value, (v) => _then(v as _Started));
+class _$OnConnectCopyWithImpl<$Res> extends _$ChatEventCopyWithImpl<$Res>
+    implements $OnConnectCopyWith<$Res> {
+  _$OnConnectCopyWithImpl(OnConnect _value, $Res Function(OnConnect) _then)
+      : super(_value, (v) => _then(v as OnConnect));
 
   @override
-  _Started get _value => super._value as _Started;
+  OnConnect get _value => super._value as OnConnect;
 }
 
 /// @nodoc
 
-class _$_Started implements _Started {
-  const _$_Started();
+class _$OnConnect implements OnConnect {
+  const _$OnConnect();
 
   @override
   String toString() {
-    return 'ChatEvent.started()';
+    return 'ChatEvent.onConnect()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Started);
+        (other.runtimeType == runtimeType && other is OnConnect);
   }
 
   @override
@@ -115,27 +127,30 @@ class _$_Started implements _Started {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
+    required TResult Function() onConnect,
+    required TResult Function(dynamic d) onChange,
   }) {
-    return started();
+    return onConnect();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? started,
+    TResult Function()? onConnect,
+    TResult Function(dynamic d)? onChange,
   }) {
-    return started?.call();
+    return onConnect?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
+    TResult Function()? onConnect,
+    TResult Function(dynamic d)? onChange,
     required TResult orElse(),
   }) {
-    if (started != null) {
-      return started();
+    if (onConnect != null) {
+      return onConnect();
     }
     return orElse();
   }
@@ -143,54 +158,180 @@ class _$_Started implements _Started {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
+    required TResult Function(OnConnect value) onConnect,
+    required TResult Function(OnChange value) onChange,
   }) {
-    return started(this);
+    return onConnect(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Started value)? started,
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnChange value)? onChange,
   }) {
-    return started?.call(this);
+    return onConnect?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnChange value)? onChange,
     required TResult orElse(),
   }) {
-    if (started != null) {
-      return started(this);
+    if (onConnect != null) {
+      return onConnect(this);
     }
     return orElse();
   }
 }
 
-abstract class _Started implements ChatEvent {
-  const factory _Started() = _$_Started;
+abstract class OnConnect implements ChatEvent {
+  const factory OnConnect() = _$OnConnect;
+}
+
+/// @nodoc
+abstract class $OnChangeCopyWith<$Res> {
+  factory $OnChangeCopyWith(OnChange value, $Res Function(OnChange) then) =
+      _$OnChangeCopyWithImpl<$Res>;
+  $Res call({dynamic d});
+}
+
+/// @nodoc
+class _$OnChangeCopyWithImpl<$Res> extends _$ChatEventCopyWithImpl<$Res>
+    implements $OnChangeCopyWith<$Res> {
+  _$OnChangeCopyWithImpl(OnChange _value, $Res Function(OnChange) _then)
+      : super(_value, (v) => _then(v as OnChange));
+
+  @override
+  OnChange get _value => super._value as OnChange;
+
+  @override
+  $Res call({
+    Object? d = freezed,
+  }) {
+    return _then(OnChange(
+      d == freezed
+          ? _value.d
+          : d // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$OnChange implements OnChange {
+  const _$OnChange(this.d);
+
+  @override
+  final dynamic d;
+
+  @override
+  String toString() {
+    return 'ChatEvent.onChange(d: $d)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is OnChange &&
+            const DeepCollectionEquality().equals(other.d, d));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(d));
+
+  @JsonKey(ignore: true)
+  @override
+  $OnChangeCopyWith<OnChange> get copyWith =>
+      _$OnChangeCopyWithImpl<OnChange>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onConnect,
+    required TResult Function(dynamic d) onChange,
+  }) {
+    return onChange(d);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onConnect,
+    TResult Function(dynamic d)? onChange,
+  }) {
+    return onChange?.call(d);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onConnect,
+    TResult Function(dynamic d)? onChange,
+    required TResult orElse(),
+  }) {
+    if (onChange != null) {
+      return onChange(d);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnConnect value) onConnect,
+    required TResult Function(OnChange value) onChange,
+  }) {
+    return onChange(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnChange value)? onChange,
+  }) {
+    return onChange?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnChange value)? onChange,
+    required TResult orElse(),
+  }) {
+    if (onChange != null) {
+      return onChange(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnChange implements ChatEvent {
+  const factory OnChange(dynamic d) = _$OnChange;
+
+  dynamic get d;
+  @JsonKey(ignore: true)
+  $OnChangeCopyWith<OnChange> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 class _$ChatStateTearOff {
   const _$ChatStateTearOff();
 
-  _Initial initial() {
-    return const _Initial();
-  }
-
-  Started started() {
-    return const Started();
-  }
-
-  Continued continued() {
-    return const Continued();
-  }
-
-  Ended ended() {
-    return const Ended();
+  _ChatState call(
+      {required List<dynamic> history, required List<dynamic> feed}) {
+    return _ChatState(
+      history: history,
+      feed: feed,
+    );
   }
 }
 
@@ -199,55 +340,11 @@ const $ChatState = _$ChatStateTearOff();
 
 /// @nodoc
 mixin _$ChatState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() started,
-    required TResult Function() continued,
-    required TResult Function() ended,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Started value) started,
-    required TResult Function(Continued value) continued,
-    required TResult Function(Ended value) ended,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-    required TResult orElse(),
-  }) =>
+  List<dynamic> get history => throw _privateConstructorUsedError;
+  List<dynamic> get feed => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ChatStateCopyWith<ChatState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -255,6 +352,7 @@ mixin _$ChatState {
 abstract class $ChatStateCopyWith<$Res> {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
       _$ChatStateCopyWithImpl<$Res>;
+  $Res call({List<dynamic> history, List<dynamic> feed});
 }
 
 /// @nodoc
@@ -264,460 +362,108 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
   final ChatState _value;
   // ignore: unused_field
   final $Res Function(ChatState) _then;
-}
-
-/// @nodoc
-abstract class _$InitialCopyWith<$Res> {
-  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
-      __$InitialCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
-    implements _$InitialCopyWith<$Res> {
-  __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
-      : super(_value, (v) => _then(v as _Initial));
 
   @override
-  _Initial get _value => super._value as _Initial;
+  $Res call({
+    Object? history = freezed,
+    Object? feed = freezed,
+  }) {
+    return _then(_value.copyWith(
+      history: history == freezed
+          ? _value.history
+          : history // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      feed: feed == freezed
+          ? _value.feed
+          : feed // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
+  factory _$ChatStateCopyWith(
+          _ChatState value, $Res Function(_ChatState) then) =
+      __$ChatStateCopyWithImpl<$Res>;
+  @override
+  $Res call({List<dynamic> history, List<dynamic> feed});
+}
+
+/// @nodoc
+class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
+    implements _$ChatStateCopyWith<$Res> {
+  __$ChatStateCopyWithImpl(_ChatState _value, $Res Function(_ChatState) _then)
+      : super(_value, (v) => _then(v as _ChatState));
+
+  @override
+  _ChatState get _value => super._value as _ChatState;
+
+  @override
+  $Res call({
+    Object? history = freezed,
+    Object? feed = freezed,
+  }) {
+    return _then(_ChatState(
+      history: history == freezed
+          ? _value.history
+          : history // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      feed: feed == freezed
+          ? _value.feed
+          : feed // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
-  const _$_Initial();
+class _$_ChatState implements _ChatState {
+  const _$_ChatState({required this.history, required this.feed});
+
+  @override
+  final List<dynamic> history;
+  @override
+  final List<dynamic> feed;
 
   @override
   String toString() {
-    return 'ChatState.initial()';
+    return 'ChatState(history: $history, feed: $feed)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Initial);
+        (other.runtimeType == runtimeType &&
+            other is _ChatState &&
+            const DeepCollectionEquality().equals(other.history, history) &&
+            const DeepCollectionEquality().equals(other.feed, feed));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(history),
+      const DeepCollectionEquality().hash(feed));
 
+  @JsonKey(ignore: true)
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() started,
-    required TResult Function() continued,
-    required TResult Function() ended,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Started value) started,
-    required TResult Function(Continued value) continued,
-    required TResult Function(Ended value) ended,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
+  _$ChatStateCopyWith<_ChatState> get copyWith =>
+      __$ChatStateCopyWithImpl<_ChatState>(this, _$identity);
 }
 
-abstract class _Initial implements ChatState {
-  const factory _Initial() = _$_Initial;
-}
-
-/// @nodoc
-abstract class $StartedCopyWith<$Res> {
-  factory $StartedCopyWith(Started value, $Res Function(Started) then) =
-      _$StartedCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$StartedCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
-    implements $StartedCopyWith<$Res> {
-  _$StartedCopyWithImpl(Started _value, $Res Function(Started) _then)
-      : super(_value, (v) => _then(v as Started));
+abstract class _ChatState implements ChatState {
+  const factory _ChatState(
+      {required List<dynamic> history,
+      required List<dynamic> feed}) = _$_ChatState;
 
   @override
-  Started get _value => super._value as Started;
-}
-
-/// @nodoc
-
-class _$Started implements Started {
-  const _$Started();
-
+  List<dynamic> get history;
   @override
-  String toString() {
-    return 'ChatState.started()';
-  }
-
+  List<dynamic> get feed;
   @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Started);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() started,
-    required TResult Function() continued,
-    required TResult Function() ended,
-  }) {
-    return started();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-  }) {
-    return started?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Started value) started,
-    required TResult Function(Continued value) continued,
-    required TResult Function(Ended value) ended,
-  }) {
-    return started(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-  }) {
-    return started?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Started implements ChatState {
-  const factory Started() = _$Started;
-}
-
-/// @nodoc
-abstract class $ContinuedCopyWith<$Res> {
-  factory $ContinuedCopyWith(Continued value, $Res Function(Continued) then) =
-      _$ContinuedCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$ContinuedCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
-    implements $ContinuedCopyWith<$Res> {
-  _$ContinuedCopyWithImpl(Continued _value, $Res Function(Continued) _then)
-      : super(_value, (v) => _then(v as Continued));
-
-  @override
-  Continued get _value => super._value as Continued;
-}
-
-/// @nodoc
-
-class _$Continued implements Continued {
-  const _$Continued();
-
-  @override
-  String toString() {
-    return 'ChatState.continued()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Continued);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() started,
-    required TResult Function() continued,
-    required TResult Function() ended,
-  }) {
-    return continued();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-  }) {
-    return continued?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-    required TResult orElse(),
-  }) {
-    if (continued != null) {
-      return continued();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Started value) started,
-    required TResult Function(Continued value) continued,
-    required TResult Function(Ended value) ended,
-  }) {
-    return continued(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-  }) {
-    return continued?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-    required TResult orElse(),
-  }) {
-    if (continued != null) {
-      return continued(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Continued implements ChatState {
-  const factory Continued() = _$Continued;
-}
-
-/// @nodoc
-abstract class $EndedCopyWith<$Res> {
-  factory $EndedCopyWith(Ended value, $Res Function(Ended) then) =
-      _$EndedCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$EndedCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
-    implements $EndedCopyWith<$Res> {
-  _$EndedCopyWithImpl(Ended _value, $Res Function(Ended) _then)
-      : super(_value, (v) => _then(v as Ended));
-
-  @override
-  Ended get _value => super._value as Ended;
-}
-
-/// @nodoc
-
-class _$Ended implements Ended {
-  const _$Ended();
-
-  @override
-  String toString() {
-    return 'ChatState.ended()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Ended);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() started,
-    required TResult Function() continued,
-    required TResult Function() ended,
-  }) {
-    return ended();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-  }) {
-    return ended?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? started,
-    TResult Function()? continued,
-    TResult Function()? ended,
-    required TResult orElse(),
-  }) {
-    if (ended != null) {
-      return ended();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Started value) started,
-    required TResult Function(Continued value) continued,
-    required TResult Function(Ended value) ended,
-  }) {
-    return ended(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-  }) {
-    return ended?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Started value)? started,
-    TResult Function(Continued value)? continued,
-    TResult Function(Ended value)? ended,
-    required TResult orElse(),
-  }) {
-    if (ended != null) {
-      return ended(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Ended implements ChatState {
-  const factory Ended() = _$Ended;
+  @JsonKey(ignore: true)
+  _$ChatStateCopyWith<_ChatState> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -25,20 +25,27 @@ class StreamSocket{
 }
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-late StreamSocket? streamSocket;
-late IO.Socket socket;
+  late StreamSocket? streamSocket;
+  late IO.Socket socket;
 
-  ChatBloc(this.streamSocket) : super(const _Initial()) {
+  ChatBloc(this.streamSocket) : super(ChatState.initial()) {
 
     on<ChatEvent>((event, emit) {
-      streamSocket?.dispose();
-      streamSocket?.getResponse.listen((event) {
-        
+      event.map(onConnect: (e) async{
+        streamSocket?.dispose();
+        streamSocket?.getResponse.listen((event) {
+          add(ChatEvent.onChange(event));
+        });
+      }, onChange: (e) async{
       });
-
-      // TODO: implement event handler
-      event.map(started: started)
     });
+  }
+
+
+  @override
+  Future<void> close() {
+    streamSocket?.dispose();
+    return super.close();
   }
 
   void connectAndListen(){
@@ -56,22 +63,12 @@ late IO.Socket socket;
     socket.onDisconnect((_) => print('disconnect'));
   }
 
-  Welcome handleWelcome(Map<String, dynamic> data) {
-    return Welcome.fromJson(data);
-  }
-
-  Question handleQuestion(Map<String, dynamic> data) {
-    return Question.fromJson(data);
-  }
-
-  Conversation handleEndOfQuestions(List<dynamic> data) {
-    return Conversation(histories: List<ConversationHistory>.from(data.map((x) => ConversationHistory.fromJson(x))));    
-  }
+  Welcome handleWelcome(Map<String, dynamic> data) => Welcome.fromJson(data);
+  Question handleQuestion(Map<String, dynamic> data) => Question.fromJson(data);
+  Conversation handleEndOfQuestions(List<dynamic> data) => Conversation(histories: List<ConversationHistory>.from(data.map((x) => ConversationHistory.fromJson(x))));
 
   // Send a Message to the server
-  sendMessage(int answerId) {
-      socket.emit("sendMessage", answerId);
-  }
+  void sendMessage(int answerId) => socket.emit("sendMessage", answerId);
 
 }
 
