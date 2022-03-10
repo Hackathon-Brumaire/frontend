@@ -11,6 +11,7 @@ class VideoReader extends StatefulWidget {
 
 class _VideoReaderState extends State<VideoReader> {
   late final YoutubePlayerController _youtubeController;
+
   @override
   void initState() {
     _youtubeController = YoutubePlayerController(
@@ -19,6 +20,18 @@ class _VideoReaderState extends State<VideoReader> {
       )!,
     );
     super.initState();
+  }
+
+  @override
+  void deactivate() {
+    _youtubeController.pause();
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    _youtubeController.dispose();
+    super.dispose();
   }
 
   @override
