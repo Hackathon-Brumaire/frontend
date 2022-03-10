@@ -35,9 +35,6 @@ class _SocketClassState extends State<SocketClass> {
       socket.on('connect', (_) => print('connect: ${socket.id}'));
       socket.on('welcome', (data) => handleWelcome(data));
       socket.on('question', (data) => handleQuestion(data));
-      // socket.on('location', handleLocationListen);
-      // socket.on('typing', handleTyping);
-      // socket.on('message', handleMessage);
       socket.on('disconnect', (_) => print('disconnect'));
       socket.on('fromServer', (_) => print(_));
 
