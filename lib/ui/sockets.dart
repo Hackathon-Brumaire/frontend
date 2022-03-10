@@ -35,9 +35,21 @@ class _SocketsState extends State<Sockets> {
 
       // Handle socket events
       socket.on('connect', (_) => print('connect: ${socket.id}'));
-      socket.on('welcome', (data) => handleWelcome(data));
-      socket.on('question', (data) => handleQuestion(data));
-      socket.on('noMoreQuestion', (data) => handleEndOfQuestions(data));
+      socket.on('welcome', (data) {
+        Welcome tmp = handleWelcome(data);
+        tmp.type = EventType.welcome;
+        return tmp;
+
+      });
+      socket.on('question', (data) {
+        Question tmp = handleQuestion(data);
+        tmp.type = EventType.question;
+        return tmp;
+      });
+      // socket.on('noMoreQuestion', (data) {
+      //   var tmp = handleEndOfQuestions(data);
+      //   tmp
+      // });
       socket.on('disconnect', (_) => print('disconnect'));
       //add listeners
       // socket.clearListeners();
