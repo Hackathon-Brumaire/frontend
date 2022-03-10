@@ -1,3 +1,5 @@
+import 'package:brumaire_frontend/api/conversation_service.dart';
+import 'package:brumaire_frontend/models/conversation.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:brumaire_frontend/ui/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -53,27 +55,47 @@ class AllConversationsPage extends StatelessWidget {
                     ],
                   ),
                   Expanded(
-                    child: ListView.builder(
-                        itemCount: 3,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              onTap: () => print("clic"),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              tileColor: Colors.grey,
-                              title: Text(
-                                  "Conversation bot " + (index + 1).toString(),
-                                  textAlign: TextAlign.center),
-                              trailing: const Icon(
-                                Icons.chevron_right,
-                                color: Colors.black,
+                    child: FutureBuilder<List<Conversation>>(
+                        future: getConversations(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+                          List<Conversation> conversations = snapshot.data;
+                          if (snapshot.data.length == 0) {
+                            return Center(
+                              child: Text(
+                                "There is currently no conversation",
+                                style: context.theme.primaryTextTheme.headline2,
                               ),
-                            ),
-                          );
+                            );
+                          } else {
+                            return ListView.builder(
+                                itemCount: conversations.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ListTile(
+                                      onTap: () => print("clic"),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5.0)),
+                                      tileColor: Colors.grey,
+                                      title: Text(
+                                          "Conversation bot " +
+                                              (index + 1).toString(),
+                                          textAlign: TextAlign.center),
+                                      trailing: const Icon(
+                                        Icons.chevron_right,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  );
+                                });
+                          }
                         }),
-                  ),
+                  )
                 ],
               ),
             ),
