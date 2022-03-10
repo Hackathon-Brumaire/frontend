@@ -111,7 +111,7 @@ class Signaling {
     }
   }
 
-  Future<void> invite(String peerId, String media, bool useScreen) async {
+  Future<void> invite(String peerId, String media) async {
     var sessionId = '$_selfId-$peerId';
     Session session = await _createSession(
       null,

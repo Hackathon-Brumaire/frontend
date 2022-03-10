@@ -20,9 +20,8 @@ class _DataChannelSampleState extends State<DataChannelSample> {
   List<dynamic> _peers = [];
   String? _selfId;
   bool _inCalling = false;
-  RTCDataChannel? _dataChannel;
   Session? _session;
-  Timer? _timer;
+
   var _text = '';
 
   @override
@@ -34,7 +33,6 @@ class _DataChannelSampleState extends State<DataChannelSample> {
   @override
   deactivate() {
     _signaling?.close();
-    _timer?.cancel();
     super.deactivate();
   }
 
@@ -43,10 +41,6 @@ class _DataChannelSampleState extends State<DataChannelSample> {
     if (_signaling != null) {
       _signaling!.connect();
     }
-
-    _signaling?.onDataChannel = (_, channel) {
-      _dataChannel = channel;
-    };
 
     _signaling?.onSignalingStateChange = (SignalingState state) {
       switch (state) {
@@ -73,27 +67,26 @@ class _DataChannelSampleState extends State<DataChannelSample> {
               _session = session;
               _inCalling = true;
             });
-            _timer = Timer.periodic(
-              const Duration(seconds: 1),
-              _handleDataChannelTest,
-            );
             break;
           }
         case CallState.callStateBye:
-          {
-            setState(() {
-              _inCalling = false;
-            });
-            _timer?.cancel();
-            _dataChannel = null;
+          setState(() {
             _inCalling = false;
-            _session = null;
-            _text = '';
-            break;
-          }
+          });
+          _inCalling = false;
+          _session = null;
+          _text = '';
+          break;
         case CallState.callStateInvite:
+          break;
         case CallState.callStateConnected:
+          var loggerNoStack = Logger(
+            printer: PrettyPrinter(methodCount: 0),
+          );
+          loggerNoStack.w('CallState.callStateConnected');
+          break;
         case CallState.callStateRinging:
+          break;
       }
     };
 
@@ -109,16 +102,9 @@ class _DataChannelSampleState extends State<DataChannelSample> {
     });
   }
 
-  _handleDataChannelTest(Timer timer) async {
-    String text = 'Say hello ${timer.tick} times, from [$_selfId]';
-    _dataChannel
-        ?.send(RTCDataChannelMessage.fromBinary(Uint8List(timer.tick + 1)));
-    _dataChannel?.send(RTCDataChannelMessage(text));
-  }
-
   _invitePeer(context, peerId) async {
     if (peerId != _selfId) {
-      _signaling?.invite(peerId, 'data', false);
+      _signaling?.invite(peerId, 'data');
     }
   }
 
@@ -130,9 +116,11 @@ class _DataChannelSampleState extends State<DataChannelSample> {
     var self = (peer['id'] == _selfId);
     return ListBody(children: <Widget>[
       ListTile(
-        title: Text(self
-            ? peer['name'] + ', ID: ${peer['id']} ' + ' [Your self]'
-            : peer['name'] + ', ID: ${peer['id']} '),
+        title: Text(
+          self
+              ? peer['name'] + ', ID: ${peer['id']} ' + ' [Your self]'
+              : peer['name'] + ', ID: ${peer['id']} ',
+        ),
         onTap: () => _invitePeer(context, peer['id']),
         trailing: const Icon(Icons.sms),
         subtitle: Text('[${peer['user_agent']}]'),

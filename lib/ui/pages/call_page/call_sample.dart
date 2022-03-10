@@ -107,9 +107,9 @@ class _CallSampleState extends State<CallSample> {
     });
   }
 
-  _invitePeer(BuildContext context, String peerId, bool useScreen) async {
+  _invitePeer(BuildContext context, String peerId) async {
     if (_signaling != null && peerId != _selfId) {
-      _signaling?.invite(peerId, 'video', useScreen);
+      _signaling?.invite(peerId, 'video');
     }
   }
 
@@ -145,7 +145,7 @@ class _CallSampleState extends State<CallSample> {
               IconButton(
                 icon: Icon(self ? Icons.close : Icons.videocam,
                     color: self ? Colors.grey : Colors.black),
-                onPressed: () => _invitePeer(context, peer['id'], false),
+                onPressed: () => _invitePeer(context, peer['id']),
                 tooltip: 'Video calling',
               ),
             ],
