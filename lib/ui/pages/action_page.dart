@@ -22,7 +22,7 @@ class ActionPage extends StatelessWidget {
                   title: "appeler l'assistance",
                   text: "Vous avez besoin d'une assistance telephonique ?",
                   image: 'assets/images/call.jpg',
-                  onTap: () => context.router.push(const CallRoute()),
+                  onTap: () => context.router.push(const CallReparatorRoute()),
                 ),
                 CardLink(
                   title: 'Parler avec nos assistants',
