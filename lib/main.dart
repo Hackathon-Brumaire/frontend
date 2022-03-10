@@ -3,6 +3,7 @@ import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:brumaire_frontend/ui/theme/light_theme_styles.dart';
 import 'package:flutter/material.dart';
 
+
 void main() {
   runApp(RootWidget());
 }
@@ -16,11 +17,15 @@ class RootWidget extends StatelessWidget {
       routeInformationParser:
           _appRouter.defaultRouteParser(includePrefixMatches: true),
       routerDelegate: _appRouter.delegate(),
-      supportedLocales: const <Locale>[
-        Locale('en', ''),
-        Locale('fr', ''),
-      ],
-      localizationsDelegates: const [],
+      // supportedLocales: const <Locale>[
+      //   Locale('en', ''),
+      //   Locale('fr', ''),
+      // ],
+      // localizationsDelegates: [
+      //   // GlobalMaterialLocalizations.delegate,
+      //   // GlobalWidgetsLocalizations.delegate,
+      //   // GlobalCupertinoLocalizations.delegate
+      // ],
       localeResolutionCallback: (locale, supportedLocales) {
         // Check if the current device locale is supported
         for (final supportedLocale in supportedLocales) {
