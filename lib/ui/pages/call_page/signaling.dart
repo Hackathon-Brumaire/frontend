@@ -38,12 +38,12 @@ class Signaling {
   final JsonDecoder _decoder = const JsonDecoder();
   final String _selfId = randomNumeric(6);
   SimpleWebSocket? _socket;
-  var _host;
-  var _port = 8086;
-  var _turnCredential;
-  Map<String, Session> _sessions = {};
+  final String _host;
+  final int _port = 8086;
+  Map<dynamic, dynamic>? _turnCredential;
+  final Map<String, Session> _sessions = {};
   MediaStream? _localStream;
-  List<MediaStream> _remoteStreams = <MediaStream>[];
+  final List<MediaStream> _remoteStreams = [];
 
   Function(SignalingState state)? onSignalingStateChange;
   Function(Session session, CallState state)? onCallStateChange;
@@ -243,9 +243,9 @@ class Signaling {
         _iceServers = {
           'iceServers': [
             {
-              'urls': _turnCredential['uris'][0],
-              'username': _turnCredential['username'],
-              'credential': _turnCredential['password']
+              'urls': _turnCredential!['uris'][0],
+              'username': _turnCredential!['username'],
+              'credential': _turnCredential!['password']
             },
           ]
         };

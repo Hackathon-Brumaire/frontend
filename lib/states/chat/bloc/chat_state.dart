@@ -14,6 +14,5 @@ class ChatState with _$ChatState {
     required List<dynamic> history,
     required List<dynamic> feed,
   }) = _ChatState;
-  factory ChatState.initial() => ChatState(history: [], feed: []);
+  factory ChatState.initial() => const ChatState(history: [], feed: []);
 }
-

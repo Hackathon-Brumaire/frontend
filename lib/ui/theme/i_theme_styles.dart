@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'styles.dart';
@@ -8,11 +7,11 @@ abstract class IThemeStyle {
   Theme light({required Widget child});
 }
 
-abstract class IDialogTheme{
+abstract class IDialogTheme {
   late final DialogTheme dialogTheme;
 }
 
-abstract class ITextTheme{
+abstract class ITextTheme {
   final Color? primaryColor;
   final Color? secondaryColor;
   late final TextTheme data;
@@ -31,7 +30,7 @@ abstract class ITextTheme{
   ITextTheme(this.primaryColor, this.secondaryColor);
 }
 
-abstract class IColors{
+abstract class IColors {
   AppColors get colors;
   Color? scaffoldBackgroundColor;
   Color? appBarColor;
@@ -42,7 +41,7 @@ abstract class IColors{
   ColorScheme? colorScheme;
 }
 
-abstract class IButtons{
+abstract class IButtons {
   AppColors get colors;
   AppRadius get radius;
   TextButtonThemeData? textButtonThemeData;
@@ -61,27 +60,32 @@ abstract class ITheme {
 
 abstract class ThemeManager {
   static ThemeData createTheme(ITheme theme) => ThemeData(
-      indicatorColor: theme.colors.colors.white,
-      primaryColor: theme.colors.colors.white,
-      primaryColorDark: theme.colors.colors.white,
-      primaryColorLight: theme.colors.colors.white,
-      fontFamily: theme.textTheme.fontFamily,
-      tabBarTheme: TabBarTheme(labelStyle: TextStyle(fontFamily: theme.textTheme.fontFamily, fontWeight: FontWeight.bold), unselectedLabelStyle: TextStyle(fontFamily: theme.textTheme.fontFamily)),
-      textTheme: theme.textTheme.data,
-      primaryTextTheme: theme.primaryTextTheme.data,
-      accentTextTheme: theme.textTheme.accentData,
-      textButtonTheme: theme.buttons.textButtonThemeData,
-      outlinedButtonTheme: theme.buttons.outlinedButtonThemeData,
-      cardColor: theme.colors.colorScheme?.onSecondary,
-      dialogTheme: theme.dialogTheme.dialogTheme,
-      floatingActionButtonTheme: theme.buttons.floatingActionButtonThemeData,
-      appBarTheme: AppBarTheme(backgroundColor: theme.colors.appBarColor),
-      scaffoldBackgroundColor: theme.colors.colors.white,
-      colorScheme: theme.colors.colorScheme);
+        indicatorColor: theme.colors.colors.white,
+        primaryColor: theme.colors.colors.white,
+        primaryColorDark: theme.colors.colors.white,
+        primaryColorLight: theme.colors.colors.white,
+        fontFamily: theme.textTheme.fontFamily,
+        tabBarTheme: TabBarTheme(
+            labelStyle: TextStyle(
+                fontFamily: theme.textTheme.fontFamily,
+                fontWeight: FontWeight.bold),
+            unselectedLabelStyle:
+                TextStyle(fontFamily: theme.textTheme.fontFamily)),
+        textTheme: theme.textTheme.data,
+        primaryTextTheme: theme.primaryTextTheme.data,
+        accentTextTheme: theme.textTheme.accentData,
+        textButtonTheme: theme.buttons.textButtonThemeData,
+        outlinedButtonTheme: theme.buttons.outlinedButtonThemeData,
+        cardColor: theme.colors.colorScheme?.onSecondary,
+        dialogTheme: theme.dialogTheme.dialogTheme,
+        floatingActionButtonTheme: theme.buttons.floatingActionButtonThemeData,
+        appBarTheme: AppBarTheme(backgroundColor: theme.colors.appBarColor),
+        scaffoldBackgroundColor: theme.colors.colors.white,
+        colorScheme: theme.colors.colorScheme,
+      );
 }
 
-
-extension BuildContextX on BuildContext{
-    ThemeData get theme => Theme.of(this);
-    MediaQueryData get mediaQuery => MediaQuery.of(this);
+extension BuildContextX on BuildContext {
+  ThemeData get theme => Theme.of(this);
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
 }
