@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:brumaire_frontend/ui/theme/light_theme_styles.dart';
@@ -14,20 +13,18 @@ class RootWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routeInformationParser: _appRouter.defaultRouteParser(
-          includePrefixMatches: true),
-        routerDelegate: _appRouter.delegate(),
+      routeInformationParser:
+          _appRouter.defaultRouteParser(includePrefixMatches: true),
+      routerDelegate: _appRouter.delegate(),
       supportedLocales: const <Locale>[
         Locale('en', ''),
         Locale('fr', ''),
       ],
-      localizationsDelegates: const [
-      ],
+      localizationsDelegates: const [],
       localeResolutionCallback: (locale, supportedLocales) {
         // Check if the current device locale is supported
         for (final supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode ==
-              locale!.languageCode) {
+          if (supportedLocale.languageCode == locale!.languageCode) {
             return supportedLocale;
           }
         }
@@ -36,7 +33,6 @@ class RootWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Pounda",
       theme: ThemeManager.createTheme(AppThemeLight()),
-      // builder: (context, router) => router!,
     );
   }
 }

@@ -1,6 +1,3 @@
-
-
-
 import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
@@ -13,8 +10,8 @@ class SplashPage extends StatefulWidget {
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateMixin {
-
+class _SplashPageState extends State<SplashPage>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 2),
     vsync: this,
@@ -27,12 +24,10 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     curve: Curves.fastLinearToSlowEaseIn,
   ));
 
-
   @override
   void initState() {
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -42,22 +37,28 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    _controller.forward().whenComplete(() => context.router.push(const ChatRoute()));
+    _controller
+        .forward()
+        .whenComplete(() => context.router.push(const ActionRoute()));
     return Scaffold(
       body: SafeArea(
         child: SlideTransition(
           position: _offsetAnimation,
           child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Image.asset('assets/logo.png'),
-            ),
-            Text('Assistance', style: context.theme.primaryTextTheme.headline2,)
-          ],
-        ),),
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Image.asset('assets/logo.png'),
+              ),
+              Text(
+                'Assistance',
+                style: context.theme.primaryTextTheme.headline2,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
