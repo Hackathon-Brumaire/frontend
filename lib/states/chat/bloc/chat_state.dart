@@ -7,3 +7,14 @@ class ChatState with _$ChatState {
   const factory ChatState.continued() = Continued;
   const factory ChatState.ended() = Ended;
 }
+
+@freezed
+class ChatState with _$ChatState {
+  const factory ChatState({
+    required 
+  }) = _ChatState;
+
+  factory ChatState.initial() => ChatState(
+
+      );
+}
