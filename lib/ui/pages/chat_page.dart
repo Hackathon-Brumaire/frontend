@@ -3,9 +3,10 @@ import 'package:brumaire_frontend/models/question.dart';
 import 'package:brumaire_frontend/models/socket_data.dart';
 import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/states/chat/bloc/chat_bloc.dart';
+import 'package:brumaire_frontend/states/ioc.dart';
+import 'package:brumaire_frontend/states/video/video_cubit.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:brumaire_frontend/ui/theme/styles.dart';
-import 'package:brumaire_frontend/ui/widgets/video_reader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
@@ -16,8 +17,12 @@ class ChatPage extends StatefulWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(providers: [
         BlocProvider(
-            create: (context) =>
-                ChatBloc(StreamSocket())..add(const ChatEvent.onConnect()))
+          create: (context) => ChatBloc(StreamSocket())
+            ..add(
+              const ChatEvent.onConnect(),
+            ),
+        ),
+        BlocProvider(create: (context) => videoCubit),
       ], child: this);
 
   @override
@@ -56,7 +61,8 @@ class _ChatPageState extends State<ChatPage>
                 );
                 loggerNoStack.w('select response $nextAnswer');
                 if (nextAnswer.videoUrl != null) {
-                  items.add(VideoReader(videoUrl: nextAnswer.videoUrl!));
+                  context.read<VideoCubit>().loadVideo(nextAnswer.videoUrl!);
+                  context.router.push(const VideoRoute());
                 } else {
                   _selectProposal(context, index);
                 }

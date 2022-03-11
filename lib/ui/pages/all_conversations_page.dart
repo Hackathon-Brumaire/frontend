@@ -16,8 +16,9 @@ class AllConversationsPage extends StatelessWidget {
         ),
         elevation: 0,
         leading: IconButton(
-            icon: const Icon(Icons.chevron_left),
-            onPressed: () => Navigator.of(context).pop()),
+          icon: const Icon(Icons.chevron_left),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -33,76 +34,35 @@ class AllConversationsPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: FutureBuilder<List<Room>>(
-                      future: getRooms(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        List<Room> rooms = snapshot.data;
-                        if (snapshot.data.length == 0) {
-                          return Center(
-                            child: Text(
-                              "There is currently no conversation",
-                              style: context.theme.primaryTextTheme.headline2,
-                            ),
-                          );
-                        } else {
-                          return ListView.builder(
-                              itemCount: rooms.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ListTile(
-                                    onTap: () {},
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    tileColor: Colors.grey,
-                                    title: Text(
-                                      'Conversation bot ${index + 1}',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    trailing: const Icon(
-                                      Icons.chevron_right,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                );
-                              });
-                        }
-                      }),
-                )
-              ],
-            ),
-            Expanded(
-              child: FutureBuilder<List<Room>>(
-                  future: getRooms(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    List<Room> rooms = snapshot.data;
-                    if (snapshot.data.length == 0) {
-                      return Center(
-                        child: Text(
-                          "There is currently no conversation",
-                          style: context.theme.primaryTextTheme.headline2,
-                        ),
-                      );
-                    } else {
-                      return ListView.builder(
+                    future: getRooms(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      List<Room> rooms = snapshot.data;
+                      if (snapshot.data.length == 0) {
+                        return Center(
+                          child: Text(
+                            "There is currently no conversation",
+                            style: context.theme.primaryTextTheme.headline2,
+                          ),
+                        );
+                      } else {
+                        return ListView.builder(
                           itemCount: rooms.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ListTile(
-                                onTap: () => print("clic"),
+                                onTap: () {},
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0)),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
                                 tileColor: Colors.grey,
                                 title: Text(
-                                  "Conversation bot ${index + 1}",
+                                  'Conversation bot ${index + 1}',
                                   textAlign: TextAlign.center,
                                 ),
                                 trailing: const Icon(
@@ -111,9 +71,55 @@ class AllConversationsPage extends StatelessWidget {
                                 ),
                               ),
                             );
-                          });
-                    }
-                  }),
+                          },
+                        );
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+            Expanded(
+              child: FutureBuilder<List<Room>>(
+                future: getRooms(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  List<Room> rooms = snapshot.data;
+                  if (snapshot.data.length == 0) {
+                    return Center(
+                      child: Text(
+                        "There is currently no conversation",
+                        style: context.theme.primaryTextTheme.headline2,
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: rooms.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            onTap: () => print("clic"),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0)),
+                            tileColor: Colors.grey,
+                            title: Text(
+                              "Conversation bot ${index + 1}",
+                              textAlign: TextAlign.center,
+                            ),
+                            trailing: const Icon(
+                              Icons.chevron_right,
+                              color: Colors.black,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
             )
           ],
         ),
