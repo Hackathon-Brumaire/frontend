@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/models/question.dart';
 import 'package:brumaire_frontend/models/socket_data.dart';
-import 'package:brumaire_frontend/models/welcome.dart';
 import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/states/chat/bloc/chat_bloc.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
@@ -9,6 +8,7 @@ import 'package:brumaire_frontend/ui/theme/styles.dart';
 import 'package:brumaire_frontend/ui/widgets/video_reader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 
 class ChatPage extends StatefulWidget implements AutoRouteWrapper {
   const ChatPage({Key? key}) : super(key: key);
@@ -51,6 +51,10 @@ class _ChatPageState extends State<ChatPage>
               title: nextAnswer.title,
               isSelected: nextAnswer.selected,
               onSelected: (index) {
+                var loggerNoStack = Logger(
+                  printer: PrettyPrinter(methodCount: 0),
+                );
+                loggerNoStack.w('select response $nextAnswer');
                 if (nextAnswer.videoUrl != null) {
                   items.add(VideoReader(videoUrl: nextAnswer.videoUrl!));
                 } else {
@@ -79,7 +83,8 @@ class _ChatPageState extends State<ChatPage>
         leading: IconButton(
             onPressed: () {
               context.router.pop();
-            }, icon: Icon(Icons.arrow_back_ios_rounded)),
+            },
+            icon: const Icon(Icons.arrow_back_ios_rounded)),
       ),
       body: SafeArea(
         child: BlocConsumer<ChatBloc, ChatState>(

@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/ui/widgets/card_link.dart';
-import 'package:brumaire_frontend/ui/widgets/video_reader.dart';
 import 'package:flutter/material.dart';
 
 import '../../router.gr.dart';

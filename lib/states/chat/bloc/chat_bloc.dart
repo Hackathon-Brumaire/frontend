@@ -35,28 +35,41 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   ChatBloc(this.streamSocket) : super(ChatState.initial()) {
     on<ChatEvent>((event, emit) {
-      event.map(onConnect: (e) async {
-        connectAndListen();
-        streamSocket.getResponse.listen((event) {
-          add(ChatEvent.onSocketEventChange(event));
-        });
-      }, onSocketEventChange: (e) async {
-        final newState = state.copyWith(
-          feed: [...state.feed, e.d],
-        );
-        emit(newState);
-      }, onReply: (e) async  {
-          sendMessage(e.id);
-          final List<NextAnswerData>? elems = state.feed[state.feed.length-1].nextAnswers?.map((el) => el.copyWith(selected: el.id.toString() == e.id)).toList();
-          final feeds = state.feed.map((e) {
-            if(state.feed.indexOf(e) == state.feed.length-1){
-              return e.copyWith(nextAnswers: [...elems!]);
-            }
-            return e;
-          }).toList();
-          emit(state.copyWith(feed: feeds));
-      });
+      event.map(
+        onConnect: (event) => _onConnect(event, emit),
+        onSocketEventChange: (event) => _onSocketEventChange(event, emit),
+        onReply: (event) => _onReply(event, emit),
+      );
     });
+  }
+
+  _onConnect(OnConnect e, Emitter<ChatState> emit) async {
+    connectAndListen();
+    streamSocket.getResponse.listen((event) {
+      add(ChatEvent.onSocketEventChange(event));
+    });
+  }
+
+  _onSocketEventChange(OnSocketEventChange event, Emitter<ChatState> emit) {
+    final newState = state.copyWith(
+      feed: [...state.feed, event.d],
+    );
+    emit(newState);
+  }
+
+  _onReply(OnReply event, Emitter<ChatState> emit) {
+    sendMessage(event.id);
+    final List<NextAnswerData>? elems = state
+        .feed[state.feed.length - 1].nextAnswers
+        ?.map((el) => el.copyWith(selected: el.id.toString() == event.id))
+        .toList();
+    final feeds = state.feed.map((socketData) {
+      if (state.feed.indexOf(socketData) == state.feed.length - 1) {
+        return socketData.copyWith(nextAnswers: [...elems!]);
+      }
+      return socketData;
+    }).toList();
+    emit(state.copyWith(feed: feeds));
   }
 
   @override
@@ -90,8 +103,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Question handleQuestion(Map<String, dynamic> data) => Question.fromJson(data);
 
   Conversation handleEndOfQuestions(List<dynamic> data) => Conversation(
-      histories: List<ConversationHistory>.from(
-          data.map((x) => ConversationHistory.fromJson(x))));
+        histories: List<ConversationHistory>.from(
+          data.map((x) => ConversationHistory.fromJson(x)),
+        ),
+      );
 
   void sendMessage(String answerId) => socket.emit("sendMessage", answerId);
 }
