@@ -85,7 +85,7 @@ class AppRouter extends _i8.RootStackRouter {
         _i8.RouteConfig(ActionRoute.name, path: '/action'),
         _i8.RouteConfig(SplashRoute.name, path: '/splash'),
         _i8.RouteConfig(ChatRoute.name, path: '/chat'),
-        _i8.RouteConfig(CallReparatorRoute.name, path: 'call-reparator'),
+        _i8.RouteConfig(CallReparatorRoute.name, path: '/call-reparator'),
         _i8.RouteConfig(ContactRoute.name, path: '/contact'),
         _i8.RouteConfig(AllConversationsRoute.name, path: '/conversations'),
         _i8.RouteConfig(EndOfCallRoute.name, path: '/end-of-call')
@@ -120,7 +120,7 @@ class ChatRoute extends _i8.PageRouteInfo<void> {
 /// [_i4.CallReparatorPage]
 class CallReparatorRoute extends _i8.PageRouteInfo<void> {
   const CallReparatorRoute()
-      : super(CallReparatorRoute.name, path: 'call-reparator');
+      : super(CallReparatorRoute.name, path: '/call-reparator');
 
   static const String name = 'CallReparatorRoute';
 }

@@ -18,6 +18,10 @@ class SocketData with _$SocketData {
     EventType? type,
   }) = _SocketData;
 
+  bool? get isAnswered => (nextAnswers?.any((element) => element.selected == true));
+  NextAnswerData? get answered => nextAnswers?.firstWhere((element) => element.selected == true);
+
+
   factory SocketData.fromQuestion(Question q) => SocketData(
       id: q.id,
       title: q.title,
