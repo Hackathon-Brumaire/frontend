@@ -61,7 +61,7 @@ class AllConversationsPage extends StatelessWidget {
                           if (!snapshot.hasData) {
                             return const Center(child: CircularProgressIndicator());
                           }
-                          List<Room> conversations = snapshot.data;
+                          List<Room> rooms = snapshot.data;
                           if (snapshot.data.length == 0) {
                             return Center(
                               child: Text(
@@ -71,7 +71,7 @@ class AllConversationsPage extends StatelessWidget {
                             );
                           } else {
                             return ListView.builder(
-                                itemCount: conversations.length,
+                                itemCount: rooms.length,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
