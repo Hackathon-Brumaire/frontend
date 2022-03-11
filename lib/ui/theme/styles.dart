@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 @immutable
-class AppGradients{
+class AppGradients {
   const AppGradients();
-
 }
 
 @immutable
@@ -15,12 +14,12 @@ class AppColors {
   Color get black => Colors.black;
   Color get lightBlue => Colors.lightBlueAccent;
   Color get lightGreen => Colors.lightGreen;
-  Color get green => Color(0xFF607067);
+  Color get green => const Color(0xFF607067);
   Color get brown => const Color(0xFFaf9387);
 }
 
 @immutable
-class AppRadius{
+class AppRadius {
   const AppRadius();
 
   double get xxl => 50;
@@ -32,20 +31,15 @@ class AppRadius{
 }
 
 @immutable
-class AppIcons{
+class AppIcons {
   const AppIcons();
-
 }
 
 @immutable
-class AppImages{
+class AppImages {
   const AppImages();
 
   String get logo => 'assets/logo.png';
 }
 
-
-extension ColorSchemeX on ColorScheme {
-
-
-}
+extension ColorSchemeX on ColorScheme {}

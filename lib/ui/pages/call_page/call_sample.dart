@@ -7,7 +7,9 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 class CallSample extends StatefulWidget {
   static String tag = 'call_sample';
   final String host;
-  const CallSample({Key? key, required this.host}) : super(key: key);
+  final String suffix;
+  const CallSample({Key? key, required this.host, required this.suffix})
+      : super(key: key);
 
   @override
   _CallSampleState createState() => _CallSampleState();
@@ -137,11 +139,15 @@ class _CallSampleState extends State<CallSample> {
   }
 
   _buildRow(context, peer) {
+    var loggerNoStack = Logger(
+      printer: PrettyPrinter(methodCount: 0),
+    );
+    loggerNoStack.w('SUFFIX ${widget.suffix}');
     var self = (peer['id'] == _selfId);
     return ListBody(children: <Widget>[
       if (!self)
         ListTile(
-          title: Text('ID du client: ${peer['id']} '),
+          title: Text('ID du ${widget.suffix}: ${peer['id']} '),
           onTap: null,
           trailing: SizedBox(
             width: 100.0,

@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:brumaire_frontend/models/socket_data.dart';
-import 'package:brumaire_frontend/models/socket_data.dart';
-import 'package:brumaire_frontend/models/socket_data.dart';
 import 'package:brumaire_frontend/models/conversation.dart';
 import 'package:brumaire_frontend/models/conversation_history.dart';
 import 'package:brumaire_frontend/models/question.dart';
@@ -35,7 +33,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   late StreamSocket streamSocket;
   late IO.Socket socket;
 
-
   ChatBloc(this.streamSocket) : super(ChatState.initial()) {
     on<ChatEvent>((event, emit) {
       event.map(onConnect: (e) async {
@@ -43,15 +40,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         streamSocket.getResponse.listen((event) {
           add(ChatEvent.onSocketEventChange(event));
         });
-
       }, onSocketEventChange: (e) async {
         final newState = state.copyWith(
           feed: [...state.feed, e.d],
         );
         emit(newState);
-      }, onReply: (e) async  {
-          sendMessage(e.id);
-          final elems = state.feed[state.feed.length-1].nextAnswers?.map((el) => el.copyWith(selected: el.id.toString() == e.id)).toList();
+      }, onReply: (e) async {
+        sendMessage(e.id);
+        final elems = state.feed[state.feed.length - 1].nextAnswers
+            ?.map((el) => el.copyWith(selected: el.id.toString() == e.id))
+            .toList();
       });
     });
   }
@@ -69,11 +67,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     // Handle socket events
     socket.on('connect', (_) => print('connect: ${socket.id}'));
-    socket.on('welcome', (data) => streamSocket.addResponse(SocketData.fromWelcome(handleWelcome(data))));
-    socket.on('question', (data) => streamSocket.addResponse(SocketData.fromQuestion(handleQuestion(data))));
-    socket.on('noMoreQuestion', (data) =>streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
+    socket.on(
+        'welcome',
+        (data) => streamSocket
+            .addResponse(SocketData.fromWelcome(handleWelcome(data))));
+    socket.on(
+        'question',
+        (data) => streamSocket
+            .addResponse(SocketData.fromQuestion(handleQuestion(data))));
+    socket.on('noMoreQuestion',
+        (data) => streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
     socket.on('disconnect', (_) => print('disconnected'));
-
   }
 
   Welcome handleWelcome(Map<String, dynamic> data) => Welcome.fromJson(data);

@@ -12,23 +12,18 @@ class ChatPage extends StatefulWidget implements AutoRouteWrapper {
   const ChatPage({Key? key}) : super(key: key);
 
   @override
-  Widget wrappedRoute(BuildContext context) =>
-      MultiBlocProvider(providers: [
+  Widget wrappedRoute(BuildContext context) => MultiBlocProvider(providers: [
         BlocProvider(
             create: (context) =>
-            ChatBloc(StreamSocket())
-              ..add(ChatEvent.onConnect())
-
-        )
+                ChatBloc(StreamSocket())..add(ChatEvent.onConnect()))
       ], child: this);
-
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> with SingleTickerProviderStateMixin{
-
+class _ChatPageState extends State<ChatPage>
+    with SingleTickerProviderStateMixin {
   late final ScrollController _scrollController;
 
   @override
@@ -37,82 +32,96 @@ class _ChatPageState extends State<ChatPage> with SingleTickerProviderStateMixin
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     List<Widget> items = [];
 
     return Scaffold(
         body: SafeArea(
-          child: BlocConsumer<ChatBloc, ChatState>(
-            listener: (context, state) {
-              items.clear();
-              if(state.feed.isNotEmpty){
-                state.feed.forEach((e) {
-                  if (e.type == EventType.welcome) {
-                    items.add(BubbleWidget(text: e.text!));
-                  }
-                  if (e.type == EventType.question) {
-                    items.add(BubbleWidget(text: e.title!));
-                    final List<Widget>? list = e.nextAnswers?.map((e) =>
-                        ProposalWidget(id: e.id, title: e.title, onSelected: (index) {
-                          context.read<ChatBloc>().add(ChatEvent.onReply(index.toString()));
-
-                        },))
-                        .toList();
-                    if (list != null) {
-                      items.addAll(list);
-                    }
-                  }
-                  if (e.type == EventType.noMoreQuestion) {
-                    items.add(BubbleWidget(text: e.title!));
-                  }
-                });
-                if(items.length > 2){
-                  _scrollController.animateTo(
-                    _scrollController.position.maxScrollExtent,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeOut,
-                  );                }
+      child: BlocConsumer<ChatBloc, ChatState>(
+        listener: (context, state) {
+          items.clear();
+          if (state.feed.isNotEmpty) {
+            state.feed.forEach((e) {
+              if (e.type == EventType.welcome) {
+                items.add(BubbleWidget(text: e.text!));
               }
-              items.add(SizedBox(height: MediaQuery.of(context).size.height*0.25,));
-            },
-            builder: (context, state) {
-              if (state.feed.isEmpty) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                return Stack(
-                  children: [
-                    ListView.builder(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      itemBuilder: (context, index) {
-                        return items[index];
-                      },
-                      itemCount: items.length,
-                    ),
-                    Positioned(
-                        bottom: 20,
-                        child: Column(
-                          children: [
-                      ElevatedButton(onPressed: (){
-                        context.router.push(CallReparatorRoute());
-                      }, child: Text("Oui")),
-                      ElevatedButton(onPressed: (){}, child: Text("Non")),
-                    ],))
-
-                  ],
-                );
+              if (e.type == EventType.question) {
+                items.add(BubbleWidget(text: e.title!));
+                final List<Widget>? list = e.nextAnswers
+                    ?.map((e) => ProposalWidget(
+                          id: e.id,
+                          title: e.title,
+                          onSelected: (index) {
+                            context
+                                .read<ChatBloc>()
+                                .add(ChatEvent.onReply(index.toString()));
+                          },
+                        ))
+                    .toList();
+                if (list != null) {
+                  items.addAll(list);
+                }
               }
-            },
-          ),
-        ));
+              if (e.type == EventType.noMoreQuestion) {
+                items.add(BubbleWidget(text: e.title!));
+              }
+            });
+            if (items.length > 2) {
+              _scrollController.animateTo(
+                _scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOut,
+              );
+            }
+          }
+          items.add(SizedBox(
+            height: MediaQuery.of(context).size.height * 0.25,
+          ));
+        },
+        builder: (context, state) {
+          if (state.feed.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return Stack(
+              children: [
+                ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  itemBuilder: (context, index) {
+                    return items[index];
+                  },
+                  itemCount: items.length,
+                ),
+                Positioned(
+                    bottom: 20,
+                    child: Column(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              context.router.push(const CallReparatorRoute());
+                            },
+                            child: const Text("Oui")),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text("Non"),
+                        ),
+                      ],
+                    ))
+              ],
+            );
+          }
+        },
+      ),
+    ));
   }
 }
 
-final fakeItems = [
- BubbleWidget(text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",),
-
+const fakeItems = [
+  BubbleWidget(
+    text:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  ),
 ];
 
 enum UserType { client, bot, pro }
@@ -155,13 +164,13 @@ class BubbleWidget extends StatelessWidget {
                 const AppColors().brown, const AppColors().lightBlue),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                  topLeft: applyOnUserType(const Radius.circular(15),
-                      const Radius.circular(0), const Radius.circular(0)),
-                  topRight: const Radius.circular(15),
-                  bottomLeft: const Radius.circular(15),
-                  bottomRight: applyOnUserType(const Radius.circular(0),
-                      const Radius.circular(15), const Radius.circular(15)),
-                )),
+              topLeft: applyOnUserType(const Radius.circular(15),
+                  const Radius.circular(0), const Radius.circular(0)),
+              topRight: const Radius.circular(15),
+              bottomLeft: const Radius.circular(15),
+              bottomRight: applyOnUserType(const Radius.circular(0),
+                  const Radius.circular(15), const Radius.circular(15)),
+            )),
             child: Container(
               padding: const EdgeInsets.all(10),
               child: Text(
@@ -196,13 +205,13 @@ class ProposalWidget extends StatelessWidget {
       child: Card(
         elevation: 0,
         color: const AppColors().green,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(5),
-              topRight: const Radius.circular(5),
-              bottomLeft: const Radius.circular(5),
-              bottomRight: const Radius.circular(5),
-            )),
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
+          bottomLeft: Radius.circular(5),
+          bottomRight: Radius.circular(5),
+        )),
         child: Container(
           padding: const EdgeInsets.all(10),
           child: Text(

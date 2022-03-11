@@ -25,8 +25,12 @@ class SocketData with _$SocketData {
       type: EventType.question,
       media: q.media);
 
-  factory SocketData.fromWelcome(Welcome w) => SocketData(text:  w.text, createdAt: w.createdAt, type: EventType.welcome);
-  factory SocketData.fromNoMoreQuestion() => SocketData(title: "Voulez-vous être mis en relation avec un conseiller ?", type: EventType.noMoreQuestion);
+  factory SocketData.fromWelcome(Welcome w) =>
+      SocketData(text: w.text, createdAt: w.createdAt, type: EventType.welcome);
+  factory SocketData.fromNoMoreQuestion() => const SocketData(
+        title: "Voulez-vous être mis en relation avec un conseiller ?",
+        type: EventType.noMoreQuestion,
+      );
 }
 
 @freezed

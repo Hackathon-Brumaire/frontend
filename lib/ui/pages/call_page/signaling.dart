@@ -217,6 +217,7 @@ class Signaling {
         break;
       case 'keepalive':
         print('keepalive response!');
+        onCallStateChange?.call(data['session_id'], CallState.callStateBye);
         break;
       default:
         print(mapData['type']);

@@ -19,9 +19,9 @@ class RootWidget extends StatelessWidget {
       //   Locale('fr', ''),
       // ],
       // localizationsDelegates: [
-      //   // GlobalMaterialLocalizations.delegate,
-      //   // GlobalWidgetsLocalizations.delegate,
-      //   // GlobalCupertinoLocalizations.delegate
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate
       // ],
       localeResolutionCallback: (locale, supportedLocales) {
         // Check if the current device locale is supported
