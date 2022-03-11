@@ -105,7 +105,8 @@ class AllConversationsPage extends StatelessWidget {
                           child: ListTile(
                             onTap: () => print("clic"),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0)),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
                             tileColor: Colors.grey,
                             title: Text(
                               "Conversation N° ${index + 1}",

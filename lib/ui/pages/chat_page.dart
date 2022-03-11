@@ -61,7 +61,7 @@ class _ChatPageState extends State<ChatPage>
                   printer: PrettyPrinter(methodCount: 0),
                 );
                 loggerNoStack.w('select response $nextAnswer');
-                if (nextAnswer.videoUrl != null) {
+                if (nextAnswer.videoUrl != null && nextAnswer.videoUrl != '') {
                   context.read<VideoCubit>().loadVideo(nextAnswer.videoUrl!);
                   context.router.push(const VideoRoute());
                 } else {
@@ -77,6 +77,7 @@ class _ChatPageState extends State<ChatPage>
     }
     if (socketData.type == EventType.noMoreQuestion) {
       items.add(BubbleWidget(text: socketData.title!));
+      _showEndOfBotOptions = true;
     }
   }
 
@@ -88,10 +89,11 @@ class _ChatPageState extends State<ChatPage>
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-            onPressed: () {
-              context.router.pop();
-            },
-            icon: const Icon(Icons.arrow_back_ios_rounded)),
+          onPressed: () {
+            context.router.pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios_rounded),
+        ),
       ),
       body: SafeArea(
         child: BlocConsumer<ChatBloc, ChatState>(
@@ -134,32 +136,36 @@ class _ChatPageState extends State<ChatPage>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
-                            width: 150,
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                          if (_showEndOfBotOptions) ...[
+                            SizedBox(
+                              width: 150,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                color: const AppColors().green,
+                                onPressed: () {
+                                  context.router
+                                      .push(const CallReparatorRoute());
+                                },
+                                child: const Text("Oui"),
                               ),
-                              color: const AppColors().green,
-                              onPressed: () {
-                                context.router.push(const CallReparatorRoute());
-                              },
-                              child: const Text("Oui"),
                             ),
-                          ),
-                          SizedBox(
-                            width: 150,
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                            SizedBox(
+                              width: 150,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                color:
+                                    const AppColors().green.withOpacity(0.25),
+                                onPressed: () {
+                                  context.router.navigate(const ActionRoute());
+                                },
+                                child: const Text("Non"),
                               ),
-                              color: const AppColors().green.withOpacity(0.25),
-                              onPressed: () {
-                                context.router.navigate(const ActionRoute());
-                              },
-                              child: const Text("Non"),
                             ),
-                          ),
+                          ]
                         ],
                       ),
                     ),
