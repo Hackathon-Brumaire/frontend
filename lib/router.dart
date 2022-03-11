@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:brumaire_frontend/ui/pages/support_chat_page.dart';
 import 'ui/pages/action_page.dart';
 import 'ui/pages/all_conversations_page.dart';
 import 'ui/pages/chat_page.dart';
@@ -14,6 +15,7 @@ import 'ui/pages/call_page/call_reparator_page.dart';
     CustomRoute(path: '/action', page: ActionPage),
     CustomRoute(path: '/splash', page: SplashPage),
     CustomRoute(path: '/chat', page: ChatPage),
+    CustomRoute(path: '/support-chat', page: SupportChatPage),
     CustomRoute(path: '/call-reparator', page: CallReparatorPage),
     CustomRoute(path: '/contact', page: ContactPage),
     CustomRoute(path: '/conversations', page: AllConversationsPage),

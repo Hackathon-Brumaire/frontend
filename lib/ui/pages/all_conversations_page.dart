@@ -1,5 +1,7 @@
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:brumaire_frontend/api/room_service.dart';
 import 'package:brumaire_frontend/models/room.dart';
+import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:brumaire_frontend/ui/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +81,8 @@ class AllConversationsPage extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: ListTile(
                                       onTap: () {
-
+                                        final r = item as Room;
+                                        context.router.push(SupportChatRoute(id: r.id));
 
                                       },
                                       shape: RoundedRectangleBorder(
