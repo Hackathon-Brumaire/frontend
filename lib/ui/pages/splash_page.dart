@@ -55,7 +55,15 @@ class _SplashPageState extends State<SplashPage>
               Text(
                 'Assistance',
                 style: context.theme.primaryTextTheme.headline2,
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Image.asset(
+                  "assets/images/assistance_icon.png",
+                  height: 50,
+                  width: 50,
+                ),
+              ),
             ],
           ),
         ),

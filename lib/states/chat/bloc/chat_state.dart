@@ -7,4 +7,5 @@ class ChatState with _$ChatState {
     required List<SocketData> feed,
   }) = _ChatState;
   factory ChatState.initial() => const ChatState(history: [], feed: []);
+
 }

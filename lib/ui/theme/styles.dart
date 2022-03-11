@@ -12,6 +12,7 @@ class AppColors {
   Color get transparent => Colors.transparent;
   Color get white => Colors.white;
   Color get black => Colors.black;
+  Color get grey => Colors.grey;
   Color get lightBlue => Colors.lightBlueAccent;
   Color get lightGreen => Colors.lightGreen;
   Color get green => const Color(0xFF607067);

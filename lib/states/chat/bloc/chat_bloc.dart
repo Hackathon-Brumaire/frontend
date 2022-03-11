@@ -45,11 +45,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           feed: [...state.feed, e.d],
         );
         emit(newState);
-      }, onReply: (e) async {
-        sendMessage(e.id);
-        final elems = state.feed[state.feed.length - 1].nextAnswers
-            ?.map((el) => el.copyWith(selected: el.id.toString() == e.id))
-            .toList();
+      }, onReply: (e) async  {
+          sendMessage(e.id);
+          final List<NextAnswerData>? elems = state.feed[state.feed.length-1].nextAnswers?.map((el) => el.copyWith(selected: el.id.toString() == e.id)).toList();
+          final feeds = state.feed.map((e) {
+            if(state.feed.indexOf(e) == state.feed.length-1){
+              return e.copyWith(nextAnswers: [...elems!]);
+            }
+            return e;
+          }).toList();
+          emit(state.copyWith(feed: feeds));
       });
     });
   }
