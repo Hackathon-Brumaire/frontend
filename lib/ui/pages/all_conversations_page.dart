@@ -70,13 +70,18 @@ class AllConversationsPage extends StatelessWidget {
                               ),
                             );
                           } else {
+
                             return ListView.builder(
                                 itemCount: rooms.length,
                                 itemBuilder: (context, index) {
+                                  final item = snapshot.data[index];
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: ListTile(
-                                      onTap: () => print("clic"),
+                                      onTap: () {
+
+
+                                      },
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(5.0)),
