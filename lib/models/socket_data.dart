@@ -36,6 +36,9 @@ class SocketData with _$SocketData {
         title: "Voulez-vous être mis en relation avec un conseiller ?",
         type: EventType.noMoreQuestion,
       );
+
+  factory SocketData.fromRoomIdToVisitor(String roomId) =>
+      SocketData(text: roomId, type: EventType.roomIdForVisio);
 }
 
 @freezed
