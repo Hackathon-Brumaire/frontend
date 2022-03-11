@@ -135,17 +135,17 @@ class _ChatPageState extends State<ChatPage>
               for (var socketData in state.feed) {
                 addElementToItems(items, socketData);
               }
-              // if (items.length > 2) {
-              //   _scrollController.animateTo(
-              //     _scrollController.position.maxScrollExtent,
-              //     duration: const Duration(milliseconds: 500),
-              //     curve: Curves.easeOut,
-              //   );
-              // }
             }
             items.add(SizedBox(
-              height: MediaQuery.of(context).size.height * 0.25,
+              height: MediaQuery.of(context).size.height * 0.35,
             ));
+            if (items.length > 2) {
+              _scrollController.animateTo(
+                _scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOut,
+              );
+            }
             if (state.roomId != null) {
               handlePressOneOui(context, state.roomId!);
             }
@@ -164,7 +164,7 @@ class _ChatPageState extends State<ChatPage>
                     },
                     itemCount: items.length,
                   ),
-                  // if(!state.feed.any((element) => element.type == EventType.userJoined))
+                  if(!state.feed.any((element) => element.type == EventType.userJoined))
                     Positioned(
                     bottom: 20,
                     child: SizedBox(
@@ -211,7 +211,7 @@ class _ChatPageState extends State<ChatPage>
                       ),
                     ),
                   ),
-                  // if(state.feed.any((element) => element.type == EventType.userJoined))
+                  if(state.feed.any((element) => element.type == EventType.userJoined))
                     Positioned(
                       bottom: 0,
                       child: Container(
@@ -234,7 +234,7 @@ class _ChatPageState extends State<ChatPage>
                                       FocusScope.of(context)
                                           .requestFocus(FocusNode());
                                       context.read<ChatBloc>().add(
-                                          ChatEvent.onReply(
+                                          ChatEvent.onTalk(
                                               _textEditingController.value.text));
                                       _textEditingController.clear();
                                     },
