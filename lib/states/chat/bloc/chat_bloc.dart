@@ -51,9 +51,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   _onSocketEventChange(OnSocketEventChange event, Emitter<ChatState> emit) {
+
     final newState = state.copyWith(
       feed: [...state.feed, event.d],
     );
+
+    // newState.feed.map((e) {
+    //   e.
+    // });
+
     emit(newState);
   }
 
@@ -93,6 +99,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         'question',
         (data) => streamSocket
             .addResponse(SocketData.fromQuestion(handleQuestion(data))));
+    socket.on('supportUser',
+            (data) => streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
     socket.on('noMoreQuestion',
         (data) => streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
     socket.on('disconnect', (_) => print('disconnected'));

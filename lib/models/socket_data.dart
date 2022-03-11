@@ -36,6 +36,8 @@ class SocketData with _$SocketData {
         title: "Voulez-vous être mis en relation avec un conseiller ?",
         type: EventType.noMoreQuestion,
       );
+
+  factory SocketData.fromSupportUser(Map<String, dynamic> data) => SocketData(title: data["title"], type: EventType.question);
 }
 
 @freezed
