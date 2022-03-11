@@ -34,16 +34,12 @@ class _ChatPageState extends State<ChatPage>
   late final ScrollController _scrollController;
   bool _showEndOfBotOptions = false;
 
-  void handlePressOneOui(BuildContext context) {
+  void handlePressOneOui(BuildContext context, String roomId) {
     showDialog(
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            content: BlocBuilder<ChatBloc, ChatState>(
-              builder: (context, state) {
-                return const Text('Numéro de suivi a donner au technicien');
-              },
-            ),
+            content: Text('Numéro de suivi à donner au technicien $roomId'),
             actions: [
               ElevatedButton(
                 onPressed: () {
@@ -136,6 +132,9 @@ class _ChatPageState extends State<ChatPage>
             items.add(SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
             ));
+            if (state.roomId != null) {
+              handlePressOneOui(context, state.roomId!);
+            }
           },
           builder: (context, state) {
             if (state.feed.isEmpty) {
@@ -170,7 +169,10 @@ class _ChatPageState extends State<ChatPage>
                                   context.read<ChatBloc>().add(
                                         const ChatEvent.onTransportToVisio(),
                                       );
-                                  handlePressOneOui(context);
+                                  var loggerNoStack = Logger(
+                                    printer: PrettyPrinter(methodCount: 0),
+                                  );
+                                  loggerNoStack.w('Transport to visio');
                                 },
                                 child: const Text("Oui"),
                               ),
