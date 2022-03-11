@@ -83,12 +83,20 @@ class _SupportChatPageState extends State<SupportChatPage>
                   if (list != null) {
                     items.addAll(list);
                   }
+
                 }
               });
             }
             items.add(SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
             ));
+            // if (items.length > 2) {
+            //   _scrollController.animateTo(
+            //     _scrollController.position.maxScrollExtent,
+            //     duration: const Duration(milliseconds: 500),
+            //     curve: Curves.easeOut,
+            //   );
+            // }
           },
           builder: (context, state) {
             if (state.feed.isEmpty) {
