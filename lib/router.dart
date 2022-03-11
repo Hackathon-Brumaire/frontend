@@ -19,7 +19,7 @@ import 'ui/pages/call_page/call_reparator_page.dart';
     CustomRoute(path: '/call-client', page: CallClientPage),
     CustomRoute(path: '/contact', page: ContactPage),
     CustomRoute(path: '/conversations', page: AllConversationsPage),
-    CustomRoute(path: '/end-of-call', page: EndOfCallPage, initial: true),
+    CustomRoute(path: '/end-of-call', page: EndOfCallPage),
   ],
 )
 class $AppRouter {}

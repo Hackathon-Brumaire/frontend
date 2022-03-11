@@ -130,7 +130,7 @@ class ChatRoute extends _i9.PageRouteInfo<void> {
 /// [_i4.CallReparatorPage]
 class CallReparatorRoute extends _i9.PageRouteInfo<void> {
   const CallReparatorRoute()
-      : super(CallReparatorRoute.name, path: 'call-reparator');
+      : super(CallReparatorRoute.name, path: '/call-reparator');
 
   static const String name = 'CallReparatorRoute';
 }

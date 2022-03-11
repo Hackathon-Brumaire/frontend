@@ -74,6 +74,13 @@ class _ChatPageState extends State<ChatPage>
     List<Widget> items = [];
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              context.router.pop();
+            }, icon: Icon(Icons.arrow_back_ios_rounded)),
+      ),
       body: SafeArea(
         child: BlocConsumer<ChatBloc, ChatState>(
           listener: (context, state) {
