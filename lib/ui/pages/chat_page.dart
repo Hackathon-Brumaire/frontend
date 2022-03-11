@@ -34,6 +34,24 @@ class _ChatPageState extends State<ChatPage>
   late final ScrollController _scrollController;
   bool _showEndOfBotOptions = false;
 
+  void handlePressOneOui(BuildContext context, String roomId) {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            content: Text('Numéro de suivi à donner au technicien $roomId'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  context.router.push(const CallReparatorRoute());
+                },
+                child: const Text('continuer'),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -114,6 +132,9 @@ class _ChatPageState extends State<ChatPage>
             items.add(SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
             ));
+            if (state.roomId != null) {
+              handlePressOneOui(context, state.roomId!);
+            }
           },
           builder: (context, state) {
             if (state.feed.isEmpty) {
@@ -145,8 +166,13 @@ class _ChatPageState extends State<ChatPage>
                                 ),
                                 color: const AppColors().green,
                                 onPressed: () {
-                                  context.router
-                                      .push(const CallReparatorRoute());
+                                  context.read<ChatBloc>().add(
+                                        const ChatEvent.onTransportToVisio(),
+                                      );
+                                  var loggerNoStack = Logger(
+                                    printer: PrettyPrinter(methodCount: 0),
+                                  );
+                                  loggerNoStack.w('Transport to visio');
                                 },
                                 child: const Text("Oui"),
                               ),
@@ -219,20 +245,21 @@ class BubbleWidget extends StatelessWidget {
             color: applyOnUserType(const AppColors().lightGreen,
                 const AppColors().brown, const AppColors().lightBlue),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-              topLeft: applyOnUserType(
-                const Radius.circular(15),
-                const Radius.circular(0),
-                const Radius.circular(0),
+              borderRadius: BorderRadius.only(
+                topLeft: applyOnUserType(
+                  const Radius.circular(15),
+                  const Radius.circular(0),
+                  const Radius.circular(0),
+                ),
+                topRight: const Radius.circular(15),
+                bottomLeft: const Radius.circular(15),
+                bottomRight: applyOnUserType(
+                  const Radius.circular(0),
+                  const Radius.circular(15),
+                  const Radius.circular(15),
+                ),
               ),
-              topRight: const Radius.circular(15),
-              bottomLeft: const Radius.circular(15),
-              bottomRight: applyOnUserType(
-                const Radius.circular(0),
-                const Radius.circular(15),
-                const Radius.circular(15),
-              ),
-            )),
+            ),
             child: Container(
               padding: const EdgeInsets.all(10),
               child: Text(

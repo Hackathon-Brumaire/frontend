@@ -7,6 +7,7 @@ import 'package:brumaire_frontend/models/conversation_history.dart';
 import 'package:brumaire_frontend/models/question.dart';
 import 'package:brumaire_frontend/models/welcome.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:logger/logger.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 part 'chat_event.dart';
@@ -39,8 +40,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         onConnect: (event) => _onConnect(event, emit),
         onSocketEventChange: (event) => _onSocketEventChange(event, emit),
         onReply: (event) => _onReply(event, emit),
+        onTransportToVisio: (event) => _onTransportToVisio(event, emit),
       );
     });
+  }
+
+  _onTransportToVisio(OnTransportToVisio event, Emitter<ChatState> emit) async {
+    socket.emit('transportToVisio', {});
   }
 
   _onConnect(OnConnect e, Emitter<ChatState> emit) async {
@@ -51,9 +57,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   _onSocketEventChange(OnSocketEventChange event, Emitter<ChatState> emit) {
-
+    var loggerNoStack = Logger(
+      printer: PrettyPrinter(methodCount: 0),
+    );
+    loggerNoStack.w(event);
+    String? roomId;
+    event.maybeWhen(
+      orElse: () => null,
+      onSocketEventChange: (event) {
+        if (event.type == EventType.roomIdForVisio) {
+          roomId = event.text;
+        }
+      },
+    );
     final newState = state.copyWith(
       feed: [...state.feed, event.d],
+      roomId: roomId,
     );
 
     // newState.feed.map((e) {
@@ -86,8 +105,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void connectAndListen() {
-    socket = IO.io('https://brumaire.nospy.fr/',
-        IO.OptionBuilder().setTransports(['websocket']).build());
+    socket = IO.io(
+      'https://brumaire.nospy.fr/',
+      IO.OptionBuilder().setTransports(['websocket']).build(),
+    );
 
     // Handle socket events
     socket.on('connect', (_) => print('connect: ${socket.id}'));
@@ -103,6 +124,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             (data) => streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
     socket.on('noMoreQuestion',
         (data) => streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
+    socket.on(
+      'roomIdForVisio',
+      (data) => streamSocket.addResponse(
+        SocketData.fromRoomIdToVisitor(data.toString()),
+      ),
+    );
     socket.on('disconnect', (_) => print('disconnected'));
   }
 

@@ -11,16 +11,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../router.gr.dart';
 
 class SupportChatPage extends StatefulWidget implements AutoRouteWrapper {
-  const SupportChatPage({Key? key, @PathParam('id') required this.id}) : super(key: key);
+  const SupportChatPage({Key? key, @PathParam('id') required this.id})
+      : super(key: key);
 
   final int id;
-
 
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(providers: [
         BlocProvider(
-            create: (context) =>
-                SupportChatBloc(StreamSocket())..add(SupportChatEvent.onConnect(id)))
+            create: (context) => SupportChatBloc(StreamSocket())
+              ..add(SupportChatEvent.onConnect(id)))
       ], child: this);
 
   @override
@@ -49,7 +49,8 @@ class _SupportChatPageState extends State<SupportChatPage>
         leading: IconButton(
             onPressed: () {
               context.router.pop();
-            }, icon: Icon(Icons.arrow_back_ios_rounded)),
+            },
+            icon: Icon(Icons.arrow_back_ios_rounded)),
       ),
       body: SafeArea(
         child: BlocConsumer<SupportChatBloc, SupportChatState>(
@@ -58,7 +59,7 @@ class _SupportChatPageState extends State<SupportChatPage>
             if (state.feed.isNotEmpty) {
               state.feed.forEach((e) {
                 if (e.type == EventType.question) {
-                  if(e.text != null){
+                  if (e.text != null) {
                     items.add(BubbleWidget(text: e.text!));
                   }
                   final List<Widget>? list = e.nextAnswers
@@ -67,9 +68,8 @@ class _SupportChatPageState extends State<SupportChatPage>
                             title: e.title,
                             isSelected: e.selected,
                             onSelected: (index) {
-                              context
-                                  .read<SupportChatBloc>()
-                                  .add(SupportChatEvent.onReply(index.toString()));
+                              context.read<SupportChatBloc>().add(
+                                  SupportChatEvent.onReply(index.toString()));
                             },
                           ))
                       .toList();
@@ -78,13 +78,6 @@ class _SupportChatPageState extends State<SupportChatPage>
                   }
                 }
               });
-              // if (items.length > 2) {
-              //   _scrollController.animateTo(
-              //     _scrollController.position.maxScrollExtent,
-              //     duration: Duration(milliseconds: 500),
-              //     curve: Curves.easeOut,
-              //   );
-              // }
             }
             items.add(SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
@@ -107,26 +100,39 @@ class _SupportChatPageState extends State<SupportChatPage>
                   Positioned(
                       bottom: 0,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         height: 50,
                         width: MediaQuery.of(context).size.width,
-                        color: Colors.white, child: Row(children: [
-                        Text('🙂', style: TextStyle(fontSize: 20),),
-                        Flexible(child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            onEditingComplete: () {
-                            },
-                            onFieldSubmitted: (s) {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              context.read<SupportChatBloc>().add(SupportChatEvent.onReply(_textEditingController.value.text));
-                              _textEditingController.clear();
-                            },
-                            toolbarOptions: ToolbarOptions(),
-                            decoration: InputDecoration(border: OutlineInputBorder()),
-                            controller: _textEditingController, maxLines: 1,),
-                        )),
-                      ],),))
+                        color: Colors.white,
+                        child: Row(
+                          children: [
+                            const Text(
+                              '🙂',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Flexible(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                onEditingComplete: () {},
+                                onFieldSubmitted: (s) {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  context.read<SupportChatBloc>().add(
+                                      SupportChatEvent.onReply(
+                                          _textEditingController.value.text));
+                                  _textEditingController.clear();
+                                },
+                                toolbarOptions: const ToolbarOptions(),
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder()),
+                                controller: _textEditingController,
+                                maxLines: 1,
+                              ),
+                            )),
+                          ],
+                        ),
+                      ))
                 ],
               );
             }
@@ -227,21 +233,21 @@ class ProposalWidget extends StatelessWidget {
       },
       child: Card(
         elevation: 0,
-        color: !isSelected ? const AppColors().grey : AppColors().green,
+        color: !isSelected ? const AppColors().grey : const AppColors().green,
         shape: !isSelected
-            ? RoundedRectangleBorder(
+            ? const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(5),
-                topRight: const Radius.circular(5),
-                bottomLeft: const Radius.circular(5),
-                bottomRight: const Radius.circular(5),
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+                bottomLeft: Radius.circular(5),
+                bottomRight: Radius.circular(5),
               ))
-            : RoundedRectangleBorder(
+            : const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(15),
-                topRight: const Radius.circular(15),
-                bottomLeft: const Radius.circular(15),
-                bottomRight: const Radius.circular(0),
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(0),
               )),
         child: Container(
           padding: const EdgeInsets.all(10),
