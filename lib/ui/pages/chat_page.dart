@@ -25,6 +25,7 @@ class ChatPage extends StatefulWidget implements AutoRouteWrapper {
 class _ChatPageState extends State<ChatPage>
     with SingleTickerProviderStateMixin {
   late final ScrollController _scrollController;
+  bool _showEndOfBotOptions = false;
 
   @override
   void initState() {
@@ -42,7 +43,8 @@ class _ChatPageState extends State<ChatPage>
         leading: IconButton(
             onPressed: () {
               context.router.pop();
-            }, icon: Icon(Icons.arrow_back_ios_rounded)),
+            },
+            icon: Icon(Icons.arrow_back_ios_rounded)),
       ),
       body: SafeArea(
         child: BlocConsumer<ChatBloc, ChatState>(
@@ -79,6 +81,7 @@ class _ChatPageState extends State<ChatPage>
                 }
                 if (e.type == EventType.noMoreQuestion) {
                   items.add(BubbleWidget(text: e.title!));
+                  _showEndOfBotOptions = true;
                 }
               });
               if (items.length > 2) {
@@ -114,28 +117,30 @@ class _ChatPageState extends State<ChatPage>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
-                            width: 150,
-                            child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                color: AppColors().green,
-                                onPressed: () {
-                                  context.router.push(CallReparatorRoute());
-                                },
-                                child: Text("Oui")),
-                          ),
-                          SizedBox(
-                            width: 150,
-                            child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                color: AppColors().grey.withOpacity(1),
-                                onPressed: () {
-                                  context.router.navigate(ActionRoute());
-                                },
-                                child: Text("Non")),
-                          ),
+                          if (_showEndOfBotOptions) ...[
+                            SizedBox(
+                              width: 150,
+                              child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15)),
+                                  color: AppColors().green,
+                                  onPressed: () {
+                                    context.router.push(CallReparatorRoute());
+                                  },
+                                  child: Text("Oui")),
+                            ),
+                            SizedBox(
+                              width: 150,
+                              child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15)),
+                                  color: AppColors().grey.withOpacity(1),
+                                  onPressed: () {
+                                    context.router.navigate(ActionRoute());
+                                  },
+                                  child: Text("Non")),
+                            ),
+                          ],
                         ],
                       ),
                     ),
