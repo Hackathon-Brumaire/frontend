@@ -40,7 +40,7 @@ class SupportChatBloc extends Bloc<SupportChatEvent, SupportChatState> {
             ).toList();
             emit(state.copyWith(feed: newState));
 
-            connectAndListen();
+            connectAndListen(e.id);
             streamSocket.getResponse.listen((event) {
               add(SupportChatEvent.onSocketEventChange(event));
             });
@@ -66,9 +66,11 @@ class SupportChatBloc extends Bloc<SupportChatEvent, SupportChatState> {
     return super.close();
   }
 
-  void connectAndListen() {
+  void connectAndListen(int roomId) {
     socket = IO.io('https://brumaire.nospy.fr/',
-        IO.OptionBuilder().setTransports(['websocket']).build());
+        IO.OptionBuilder().setTransports(['websocket']).setQuery({
+        "room": roomId}
+        ).build());
 
     // Handle socket events
     socket.on('connect', (_) => print('connect: ${socket.id}'));
