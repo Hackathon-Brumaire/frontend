@@ -22,6 +22,7 @@ class _CallSampleState extends State<CallSample> {
   final RTCVideoRenderer _localRenderer = RTCVideoRenderer();
   final RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
   bool _inCalling = false;
+  bool _isMute = false;
   Session? _session;
 
   @override
@@ -136,6 +137,7 @@ class _CallSampleState extends State<CallSample> {
 
   _muteMic() {
     _signaling?.muteMic();
+    _isMute = true;
   }
 
   _buildRow(context, peer) {
@@ -202,8 +204,8 @@ class _CallSampleState extends State<CallSample> {
                     backgroundColor: Colors.redAccent,
                   ),
                   FloatingActionButton(
-                    child: const Icon(
-                      Icons.mic_off,
+                    child: Icon(
+                      _isMute ? Icons.mic_off : Icons.mic,
                       color: Colors.black,
                     ),
                     onPressed: _muteMic,

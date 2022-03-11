@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/models/question.dart';
+import 'package:brumaire_frontend/models/socket_data.dart';
 import 'package:brumaire_frontend/models/welcome.dart';
 import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/states/chat/bloc/chat_bloc.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:brumaire_frontend/ui/theme/styles.dart';
+import 'package:brumaire_frontend/ui/widgets/video_reader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,6 +34,41 @@ class _ChatPageState extends State<ChatPage>
     super.initState();
   }
 
+  void _selectProposal(BuildContext context, int index) {
+    context.read<ChatBloc>().add(ChatEvent.onReply(index.toString()));
+  }
+
+  void addElementToItems(List<Widget> items, SocketData socketData) {
+    if (socketData.type == EventType.welcome) {
+      items.add(BubbleWidget(text: socketData.text!));
+    }
+    if (socketData.type == EventType.question) {
+      items.add(BubbleWidget(text: socketData.title!));
+      final List<Widget>? list = socketData.nextAnswers
+          ?.map(
+            (nextAnswer) => ProposalWidget(
+              id: nextAnswer.id,
+              title: nextAnswer.title,
+              isSelected: nextAnswer.selected,
+              onSelected: (index) {
+                if (nextAnswer.videoUrl != null) {
+                  items.add(VideoReader(videoUrl: nextAnswer.videoUrl!));
+                } else {
+                  _selectProposal(context, index);
+                }
+              },
+            ),
+          )
+          .toList();
+      if (list != null) {
+        items.addAll(list);
+      }
+    }
+    if (socketData.type == EventType.noMoreQuestion) {
+      items.add(BubbleWidget(text: socketData.title!));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> items = [];
@@ -42,58 +79,16 @@ class _ChatPageState extends State<ChatPage>
           listener: (context, state) {
             items.clear();
             if (state.feed.isNotEmpty) {
-              state.feed.forEach((e) {
-                if (e.type == EventType.welcome) {
-                  items.add(BubbleWidget(text: e.text!));
-                }
-                if (e.type == EventType.question) {
-                  // if(e.isAnswered!){
-                  //   items.add(ProposalWidget(id: e.answered!.id, title: e.answered!.title, isSelected: e.answered!.selected));
-                  // }else{
-                  //
-                  // }
-
-
-                  items.add(BubbleWidget(text: e.title!));
-                  final List<Widget>? list = e.nextAnswers
-                      ?.map((e) => ProposalWidget(
-                    id: e.id,
-                    title: e.title,
-                    isSelected : e.selected,
-                    onSelected: (index) {
-                      context
-                          .read<ChatBloc>()
-                          .add(ChatEvent.onReply(index.toString()));
-                    },
-                  ))
-                      .toList();
-                  if (list != null) {
-                    items.addAll(list);
-                  }
-
-
-                }
-                if (e.type == EventType.noMoreQuestion) {
-                  items.add(BubbleWidget(text: e.title!));
-                }
-
-
-
-
-              });
+              for (var socketData in state.feed) {
+                addElementToItems(items, socketData);
+              }
               if (items.length > 2) {
                 _scrollController.animateTo(
                   _scrollController.position.maxScrollExtent,
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   curve: Curves.easeOut,
                 );
               }
-
-
-
-
-
-
             }
             items.add(SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
@@ -123,22 +118,28 @@ class _ChatPageState extends State<ChatPage>
                           SizedBox(
                             width: 150,
                             child: RaisedButton(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                              color: AppColors().green,
-                                onPressed: () {
-                                  context.router.push(CallReparatorRoute());
-                                },
-                                child: Text("Oui")),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              color: const AppColors().green,
+                              onPressed: () {
+                                context.router.push(const CallReparatorRoute());
+                              },
+                              child: const Text("Oui"),
+                            ),
                           ),
                           SizedBox(
                             width: 150,
                             child: RaisedButton(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-
-                                color: AppColors().green.withOpacity(0.25),
-                                onPressed: () {
-                              context.router.navigate(ActionRoute());
-                            }, child: Text("Non")),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              color: const AppColors().green.withOpacity(0.25),
+                              onPressed: () {
+                                context.router.navigate(const ActionRoute());
+                              },
+                              child: const Text("Non"),
+                            ),
                           ),
                         ],
                       ),
@@ -219,7 +220,11 @@ class BubbleWidget extends StatelessWidget {
 
 class ProposalWidget extends StatelessWidget {
   const ProposalWidget(
-      {Key? key, required this.id, required this.title, this.onSelected, required this.isSelected})
+      {Key? key,
+      required this.id,
+      required this.title,
+      this.onSelected,
+      required this.isSelected})
       : super(key: key);
 
   final int id;
@@ -227,7 +232,10 @@ class ProposalWidget extends StatelessWidget {
   final bool isSelected;
   final Function(int)? onSelected;
 
-  Widget _buildIsSelected(List<Widget> children) => Row(children: children, mainAxisAlignment: MainAxisAlignment.end,);
+  Widget _buildIsSelected(List<Widget> children) => Row(
+        children: children,
+        mainAxisAlignment: MainAxisAlignment.end,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -237,20 +245,22 @@ class ProposalWidget extends StatelessWidget {
       },
       child: Card(
         elevation: 0,
-        color: !isSelected ? const AppColors().grey : AppColors().green,
-        shape: !isSelected ? RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(5),
-              topRight: const Radius.circular(5),
-              bottomLeft: const Radius.circular(5),
-              bottomRight: const Radius.circular(5),
-            )) : RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(15),
-              topRight: const Radius.circular(15),
-              bottomLeft: const Radius.circular(15),
-              bottomRight: const Radius.circular(0),
-            )),
+        color: !isSelected ? const AppColors().grey : const AppColors().green,
+        shape: !isSelected
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+                bottomLeft: Radius.circular(5),
+                bottomRight: Radius.circular(5),
+              ))
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(0),
+              )),
         child: Container(
           padding: const EdgeInsets.all(10),
           child: Text(
@@ -263,11 +273,10 @@ class ProposalWidget extends StatelessWidget {
       ),
     );
 
-    if(isSelected){
+    if (isSelected) {
       return _buildIsSelected([child]);
-    }else{
+    } else {
       return child;
     }
-
   }
 }

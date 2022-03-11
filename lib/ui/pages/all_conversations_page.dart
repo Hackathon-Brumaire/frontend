@@ -20,7 +20,7 @@ class AllConversationsPage extends StatelessWidget {
             icon: const Icon(Icons.chevron_left),
             onPressed: () => Navigator.of(context).pop()),
       ),
-      body: 
+      body:
           // Positioned.fill(
           //   child: Container(
           //     decoration: const BoxDecoration(
@@ -33,72 +33,70 @@ class AllConversationsPage extends StatelessWidget {
           //   ),
           // ),
           Container(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/chat_bot_icone.png",
-                        height: 40,
-                        width: 40,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("All conversations",
-                            style: context.theme.primaryTextTheme.headline2
-                                ?.copyWith(color: AppColors().black)),
-                      )
-                    ],
+                  Image.asset(
+                    "assets/images/chat_bot_icone.png",
+                    height: 40,
+                    width: 40,
                   ),
-                  Expanded(
-                    child: FutureBuilder<List<Room>>(
-                        future: getRooms(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(child: CircularProgressIndicator());
-                          }
-                          List<Room> rooms = snapshot.data;
-                          if (snapshot.data.length == 0) {
-                            return Center(
-                              child: Text(
-                                "There is currently no conversation",
-                                style: context.theme.primaryTextTheme.headline2,
-                              ),
-                            );
-                          } else {
-                            return ListView.builder(
-                                itemCount: rooms.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ListTile(
-                                      onTap: () => print("clic"),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0)),
-                                      tileColor: Colors.grey,
-                                      title: Text(
-                                          "Conversation bot " +
-                                              (index + 1).toString(),
-                                          textAlign: TextAlign.center),
-                                      trailing: const Icon(
-                                        Icons.chevron_right,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  );
-                                });
-                          }
-                        }),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("All conversations",
+                        style: context.theme.primaryTextTheme.headline2
+                            ?.copyWith(color: AppColors().black)),
                   )
                 ],
               ),
-            ),
+              Expanded(
+                child: FutureBuilder<List<Room>>(
+                    future: getRooms(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      List<Room> rooms = snapshot.data;
+                      if (snapshot.data.length == 0) {
+                        return Center(
+                          child: Text(
+                            "There is currently no conversation",
+                            style: context.theme.primaryTextTheme.headline2,
+                          ),
+                        );
+                      } else {
+                        return ListView.builder(
+                            itemCount: rooms.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  onTap: () => print("clic"),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  tileColor: Colors.grey,
+                                  title: Text(
+                                    "Conversation bot ${index + 1}",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.chevron_right,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              );
+                            });
+                      }
+                    }),
+              )
+            ],
           ),
-      );
+        ),
+      ),
+    );
   }
 }
