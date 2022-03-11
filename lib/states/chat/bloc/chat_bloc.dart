@@ -40,6 +40,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         onConnect: (event) => _onConnect(event, emit),
         onSocketEventChange: (event) => _onSocketEventChange(event, emit),
         onReply: (event) => _onReply(event, emit),
+        onTalk: (event) => _onTalk(event, emit),
         onTransportToVisio: (event) => _onTransportToVisio(event, emit),
       );
     });
@@ -99,6 +100,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       return socketData;
     }).toList();
     emit(state.copyWith(feed: feeds));
+  }
+
+  _onTalk(OnTalk event, Emitter<ChatState> emit) {
+    sendMessage(event.id);
+    emit(state.copyWith(feed: [
+      ...state.feed,
+      SocketData(id: -2, type: EventType.question, nextAnswers: [
+        NextAnswerData(id: -2, title: event.id, selected: true, videoUrl: null)
+      ])
+    ]));
   }
 
   @override

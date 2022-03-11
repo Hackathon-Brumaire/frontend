@@ -19,7 +19,7 @@ class SimpleWebSocket {
       _socket.listen((data) {
         onMessage?.call(data);
       }, onDone: () {
-        onClose?.call(_socket.closeCode, _socket.closeReason);
+        onClose?.call(_socket?.closeCode, _socket.closeReason);
       });
     } catch (e) {
       onClose?.call(500, e.toString());
