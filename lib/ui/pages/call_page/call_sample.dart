@@ -7,7 +7,9 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 class CallSample extends StatefulWidget {
   static String tag = 'call_sample';
   final String host;
-  const CallSample({Key? key, required this.host}) : super(key: key);
+  final String suffix;
+  const CallSample({Key? key, required this.host, required this.suffix})
+      : super(key: key);
 
   @override
   _CallSampleState createState() => _CallSampleState();
@@ -20,6 +22,7 @@ class _CallSampleState extends State<CallSample> {
   final RTCVideoRenderer _localRenderer = RTCVideoRenderer();
   final RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
   bool _inCalling = false;
+  bool _isMute = false;
   Session? _session;
 
   @override
@@ -134,14 +137,19 @@ class _CallSampleState extends State<CallSample> {
 
   _muteMic() {
     _signaling?.muteMic();
+    _isMute = true;
   }
 
   _buildRow(context, peer) {
+    var loggerNoStack = Logger(
+      printer: PrettyPrinter(methodCount: 0),
+    );
+    loggerNoStack.w('SUFFIX ${widget.suffix}');
     var self = (peer['id'] == _selfId);
     return ListBody(children: <Widget>[
       if (!self)
         ListTile(
-          title: Text('ID du client: ${peer['id']} '),
+          title: Text('ID du ${widget.suffix}: ${peer['id']} '),
           onTap: null,
           trailing: SizedBox(
             width: 100.0,
@@ -196,8 +204,8 @@ class _CallSampleState extends State<CallSample> {
                     backgroundColor: Colors.redAccent,
                   ),
                   FloatingActionButton(
-                    child: const Icon(
-                      Icons.mic_off,
+                    child: Icon(
+                      _isMute ? Icons.mic_off : Icons.mic,
                       color: Colors.black,
                     ),
                     onPressed: _muteMic,

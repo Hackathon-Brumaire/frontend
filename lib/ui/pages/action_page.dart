@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/ui/widgets/card_link.dart';
-import 'package:brumaire_frontend/ui/widgets/video_reader.dart';
 import 'package:flutter/material.dart';
 
 import '../../router.gr.dart';
@@ -19,8 +18,8 @@ class ActionPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CardLink(
-                  title: "appeler l'assistance",
-                  text: "Vous avez besoin d'une assistance telephonique ?",
+                  title: "Appeler l'assistance",
+                  text: "Vous avez besoin d'une assistance téléphonique ?",
                   image: 'assets/images/call.jpg',
                   onTap: () => context.router.push(const CallReparatorRoute()),
                 ),
@@ -37,9 +36,6 @@ class ActionPage extends StatelessWidget {
                   onTap: () =>
                       context.router.push(const AllConversationsRoute()),
                 ),
-                // const VideoReader(
-                //   videoUrl: "https://www.youtube.com/watch?v=7eNXmBQgUQc",
-                // ),
               ],
             ),
           ),

@@ -292,11 +292,15 @@ class _$NextAnswerDataTearOff {
   const _$NextAnswerDataTearOff();
 
   _NextAnswerData call(
-      {required int id, required String title, required bool selected}) {
+      {required int id,
+      required String title,
+      required bool selected,
+      required String? videoUrl}) {
     return _NextAnswerData(
       id: id,
       title: title,
       selected: selected,
+      videoUrl: videoUrl,
     );
   }
 }
@@ -309,6 +313,7 @@ mixin _$NextAnswerData {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   bool get selected => throw _privateConstructorUsedError;
+  String? get videoUrl => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NextAnswerDataCopyWith<NextAnswerData> get copyWith =>
@@ -320,7 +325,7 @@ abstract class $NextAnswerDataCopyWith<$Res> {
   factory $NextAnswerDataCopyWith(
           NextAnswerData value, $Res Function(NextAnswerData) then) =
       _$NextAnswerDataCopyWithImpl<$Res>;
-  $Res call({int id, String title, bool selected});
+  $Res call({int id, String title, bool selected, String? videoUrl});
 }
 
 /// @nodoc
@@ -337,6 +342,7 @@ class _$NextAnswerDataCopyWithImpl<$Res>
     Object? id = freezed,
     Object? title = freezed,
     Object? selected = freezed,
+    Object? videoUrl = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -351,6 +357,10 @@ class _$NextAnswerDataCopyWithImpl<$Res>
           ? _value.selected
           : selected // ignore: cast_nullable_to_non_nullable
               as bool,
+      videoUrl: videoUrl == freezed
+          ? _value.videoUrl
+          : videoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -362,7 +372,7 @@ abstract class _$NextAnswerDataCopyWith<$Res>
           _NextAnswerData value, $Res Function(_NextAnswerData) then) =
       __$NextAnswerDataCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String title, bool selected});
+  $Res call({int id, String title, bool selected, String? videoUrl});
 }
 
 /// @nodoc
@@ -381,6 +391,7 @@ class __$NextAnswerDataCopyWithImpl<$Res>
     Object? id = freezed,
     Object? title = freezed,
     Object? selected = freezed,
+    Object? videoUrl = freezed,
   }) {
     return _then(_NextAnswerData(
       id: id == freezed
@@ -395,6 +406,10 @@ class __$NextAnswerDataCopyWithImpl<$Res>
           ? _value.selected
           : selected // ignore: cast_nullable_to_non_nullable
               as bool,
+      videoUrl: videoUrl == freezed
+          ? _value.videoUrl
+          : videoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -403,7 +418,10 @@ class __$NextAnswerDataCopyWithImpl<$Res>
 
 class _$_NextAnswerData extends _NextAnswerData {
   const _$_NextAnswerData(
-      {required this.id, required this.title, required this.selected})
+      {required this.id,
+      required this.title,
+      required this.selected,
+      required this.videoUrl})
       : super._();
 
   @override
@@ -412,10 +430,12 @@ class _$_NextAnswerData extends _NextAnswerData {
   final String title;
   @override
   final bool selected;
+  @override
+  final String? videoUrl;
 
   @override
   String toString() {
-    return 'NextAnswerData(id: $id, title: $title, selected: $selected)';
+    return 'NextAnswerData(id: $id, title: $title, selected: $selected, videoUrl: $videoUrl)';
   }
 
   @override
@@ -425,7 +445,8 @@ class _$_NextAnswerData extends _NextAnswerData {
             other is _NextAnswerData &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality().equals(other.selected, selected));
+            const DeepCollectionEquality().equals(other.selected, selected) &&
+            const DeepCollectionEquality().equals(other.videoUrl, videoUrl));
   }
 
   @override
@@ -433,7 +454,8 @@ class _$_NextAnswerData extends _NextAnswerData {
       runtimeType,
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(selected));
+      const DeepCollectionEquality().hash(selected),
+      const DeepCollectionEquality().hash(videoUrl));
 
   @JsonKey(ignore: true)
   @override
@@ -445,7 +467,8 @@ abstract class _NextAnswerData extends NextAnswerData {
   const factory _NextAnswerData(
       {required int id,
       required String title,
-      required bool selected}) = _$_NextAnswerData;
+      required bool selected,
+      required String? videoUrl}) = _$_NextAnswerData;
   const _NextAnswerData._() : super._();
 
   @override
@@ -454,6 +477,8 @@ abstract class _NextAnswerData extends NextAnswerData {
   String get title;
   @override
   bool get selected;
+  @override
+  String? get videoUrl;
   @override
   @JsonKey(ignore: true)
   _$NextAnswerDataCopyWith<_NextAnswerData> get copyWith =>

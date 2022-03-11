@@ -24,38 +24,48 @@ class SupportChatBloc extends Bloc<SupportChatEvent, SupportChatState> {
   late IO.Socket socket;
 
   SupportChatBloc(this.streamSocket) : super(SupportChatState.initial()) {
-    on<SupportChatEvent>((event, emit) async{
-      await event.map(
-          onConnect: (e) async {
-            final RoomConversation conversationByRoomId =
-                await getConversationByRoomId(e.id);
-            final cvs = conversationByRoomId.conversationHistorics.sortedBy((element) => element.createdAt);
-            final newState = cvs.map(
-              (e) {
-                if(e.messageType == "answer"){
-                 return SocketData(type: EventType.question, nextAnswers: [NextAnswerData(id: -1, title: e.message, selected: true)]);
-                }
-                return SocketData(type: EventType.question, nextAnswers: null, text: e.message);
-              },
-            ).toList();
-            emit(state.copyWith(feed: newState));
-
-            connectAndListen(e.id);
-            streamSocket.getResponse.listen((event) {
-              add(SupportChatEvent.onSocketEventChange(event));
-            });
+    on<SupportChatEvent>((event, emit) async {
+      await event.map(onConnect: (e) async {
+        final RoomConversation conversationByRoomId =
+            await getConversationByRoomId(e.id);
+        final cvs = conversationByRoomId.conversationHistorics
+            .sortedBy((element) => element.createdAt);
+        final newState = cvs.map(
+          (e) {
+            if (e.messageType == "answer") {
+              return SocketData(type: EventType.question, nextAnswers: [
+                NextAnswerData(
+                  id: -1,
+                  title: e.message,
+                  selected: true,
+                  videoUrl: null,
+                )
+              ]);
+            }
+            return SocketData(
+                type: EventType.question, nextAnswers: null, text: e.message);
           },
-          onSocketEventChange: (e) async {
-            final newState = state.copyWith(
-              feed: [...state.feed, e.d],
-            );
-            emit(newState);
-          },
-          onReply: (e) async {
-            sendMessage(e.id);
-            emit(state.copyWith(feed: [...state.feed, SocketData(id : -2, type: EventType.question, nextAnswers: [NextAnswerData(id: -2, title: e.id, selected: true)])]));
+        ).toList();
+        emit(state.copyWith(feed: newState));
 
-          });
+        connectAndListen(e.id);
+        streamSocket.getResponse.listen((event) {
+          add(SupportChatEvent.onSocketEventChange(event));
+        });
+      }, onSocketEventChange: (e) async {
+        final newState = state.copyWith(
+          feed: [...state.feed, e.d],
+        );
+        emit(newState);
+      }, onReply: (e) async {
+        sendMessage(e.id);
+        emit(state.copyWith(feed: [
+          ...state.feed,
+          SocketData(id: -2, type: EventType.question, nextAnswers: [
+            NextAnswerData(id: -2, title: e.id, selected: true, videoUrl: null)
+          ])
+        ]));
+      });
     });
   }
 
@@ -67,10 +77,10 @@ class SupportChatBloc extends Bloc<SupportChatEvent, SupportChatState> {
   }
 
   void connectAndListen(int roomId) {
-    socket = IO.io('https://brumaire.nospy.fr/',
-        IO.OptionBuilder().setTransports(['websocket']).setQuery({
-        "room": roomId}
-        ).build());
+    socket = IO.io(
+        'https://brumaire.nospy.fr/',
+        IO.OptionBuilder()
+            .setTransports(['websocket']).setQuery({"room": roomId}).build());
 
     // Handle socket events
     socket.on('connect', (_) => print('connect: ${socket.id}'));

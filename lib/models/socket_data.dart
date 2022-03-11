@@ -18,9 +18,10 @@ class SocketData with _$SocketData {
     EventType? type,
   }) = _SocketData;
 
-  bool? get isAnswered => (nextAnswers?.any((element) => element.selected == true));
-  NextAnswerData? get answered => nextAnswers?.firstWhere((element) => element.selected == true);
-
+  bool? get isAnswered =>
+      (nextAnswers?.any((element) => element.selected == true));
+  NextAnswerData? get answered =>
+      nextAnswers?.firstWhere((element) => element.selected == true);
 
   factory SocketData.fromQuestion(Question q) => SocketData(
       id: q.id,
@@ -29,8 +30,12 @@ class SocketData with _$SocketData {
       type: EventType.question,
       media: q.media);
 
-  factory SocketData.fromWelcome(Welcome w) => SocketData(text:  w.text, createdAt: w.createdAt, type: EventType.welcome);
-  factory SocketData.fromNoMoreQuestion() => SocketData(title: "Voulez-vous être mis en relation avec un conseiller ?", type: EventType.noMoreQuestion);
+  factory SocketData.fromWelcome(Welcome w) =>
+      SocketData(text: w.text, createdAt: w.createdAt, type: EventType.welcome);
+  factory SocketData.fromNoMoreQuestion() => const SocketData(
+        title: "Voulez-vous être mis en relation avec un conseiller ?",
+        type: EventType.noMoreQuestion,
+      );
 }
 
 @freezed
@@ -41,8 +46,9 @@ class NextAnswerData with _$NextAnswerData {
     required int id,
     required String title,
     required bool selected,
+    required String? videoUrl,
   }) = _NextAnswerData;
 
-  factory NextAnswerData.from(NextAnswer n) =>
-      NextAnswerData(id: n.id, title: n.title, selected: false);
+  factory NextAnswerData.from(NextAnswer n) => NextAnswerData(
+      id: n.id, title: n.title, selected: false, videoUrl: n.videoUrl);
 }

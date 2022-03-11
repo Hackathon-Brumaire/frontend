@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/router.gr.dart';
-import 'package:brumaire_frontend/ui/pages/chat_page.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:flutter/material.dart';
 

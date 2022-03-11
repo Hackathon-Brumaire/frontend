@@ -14,24 +14,6 @@ class RootWidget extends StatelessWidget {
       routeInformationParser:
           _appRouter.defaultRouteParser(includePrefixMatches: true),
       routerDelegate: _appRouter.delegate(),
-      // supportedLocales: const <Locale>[
-      //   Locale('en', ''),
-      //   Locale('fr', ''),
-      // ],
-      // localizationsDelegates: [
-      //   // GlobalMaterialLocalizations.delegate,
-      //   // GlobalWidgetsLocalizations.delegate,
-      //   // GlobalCupertinoLocalizations.delegate
-      // ],
-      localeResolutionCallback: (locale, supportedLocales) {
-        // Check if the current device locale is supported
-        for (final supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale!.languageCode) {
-            return supportedLocale;
-          }
-        }
-        return supportedLocales.first;
-      },
       debugShowCheckedModeBanner: false,
       title: "Pounda",
       theme: ThemeManager.createTheme(AppThemeLight()),

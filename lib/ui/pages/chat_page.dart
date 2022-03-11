@@ -1,12 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:brumaire_frontend/models/question.dart';
-import 'package:brumaire_frontend/models/welcome.dart';
+import 'package:brumaire_frontend/models/socket_data.dart';
 import 'package:brumaire_frontend/router.gr.dart';
 import 'package:brumaire_frontend/states/chat/bloc/chat_bloc.dart';
+import 'package:brumaire_frontend/states/ioc.dart';
+import 'package:brumaire_frontend/states/video/video_cubit.dart';
 import 'package:brumaire_frontend/ui/theme/i_theme_styles.dart';
 import 'package:brumaire_frontend/ui/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 
 class ChatPage extends StatefulWidget implements AutoRouteWrapper {
   const ChatPage({Key? key}) : super(key: key);
@@ -14,8 +17,12 @@ class ChatPage extends StatefulWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) => MultiBlocProvider(providers: [
         BlocProvider(
-            create: (context) =>
-                ChatBloc(StreamSocket())..add(const ChatEvent.onConnect()))
+          create: (context) => ChatBloc(StreamSocket())
+            ..add(
+              const ChatEvent.onConnect(),
+            ),
+        ),
+        BlocProvider(create: (context) => videoCubit),
       ], child: this);
 
   @override
@@ -25,11 +32,53 @@ class ChatPage extends StatefulWidget implements AutoRouteWrapper {
 class _ChatPageState extends State<ChatPage>
     with SingleTickerProviderStateMixin {
   late final ScrollController _scrollController;
+  bool _showEndOfBotOptions = false;
 
   @override
   void initState() {
     _scrollController = ScrollController();
     super.initState();
+  }
+
+  void _selectProposal(BuildContext context, int index) {
+    context.read<ChatBloc>().add(ChatEvent.onReply(index.toString()));
+  }
+
+  void addElementToItems(List<Widget> items, SocketData socketData) {
+    if (socketData.type == EventType.welcome) {
+      items.add(BubbleWidget(text: socketData.text!));
+    }
+    if (socketData.type == EventType.question) {
+      items.add(BubbleWidget(text: socketData.title!));
+      final List<Widget>? list = socketData.nextAnswers
+          ?.map(
+            (nextAnswer) => ProposalWidget(
+              id: nextAnswer.id,
+              title: nextAnswer.title,
+              isSelected: nextAnswer.selected,
+              onSelected: (index) {
+                var loggerNoStack = Logger(
+                  printer: PrettyPrinter(methodCount: 0),
+                );
+                loggerNoStack.w('select response $nextAnswer');
+                if (nextAnswer.videoUrl != null && nextAnswer.videoUrl != '') {
+                  context.read<VideoCubit>().loadVideo(nextAnswer.videoUrl!);
+                  context.router.push(const VideoRoute());
+                } else {
+                  _selectProposal(context, index);
+                }
+              },
+            ),
+          )
+          .toList();
+      if (list != null) {
+        items.addAll(list);
+      }
+    }
+    if (socketData.type == EventType.noMoreQuestion) {
+      items.add(BubbleWidget(text: socketData.title!));
+      _showEndOfBotOptions = true;
+    }
   }
 
   @override
@@ -40,51 +89,24 @@ class _ChatPageState extends State<ChatPage>
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-            onPressed: () {
-              context.router.pop();
-            }, icon: Icon(Icons.arrow_back_ios_rounded)),
+          onPressed: () {
+            context.router.pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios_rounded),
+        ),
       ),
       body: SafeArea(
         child: BlocConsumer<ChatBloc, ChatState>(
           listener: (context, state) {
             items.clear();
             if (state.feed.isNotEmpty) {
-              state.feed.forEach((e) {
-                if (e.type == EventType.welcome) {
-                  items.add(BubbleWidget(text: e.text!));
-                }
-                if (e.type == EventType.question) {
-                  // if(e.isAnswered!){
-                  //   items.add(ProposalWidget(id: e.answered!.id, title: e.answered!.title, isSelected: e.answered!.selected));
-                  // }else{
-                  //
-                  // }
-
-                  items.add(BubbleWidget(text: e.title!));
-                  final List<Widget>? list = e.nextAnswers
-                      ?.map((e) => ProposalWidget(
-                            id: e.id,
-                            title: e.title,
-                            isSelected: e.selected,
-                            onSelected: (index) {
-                              context
-                                  .read<ChatBloc>()
-                                  .add(ChatEvent.onReply(index.toString()));
-                            },
-                          ))
-                      .toList();
-                  if (list != null) {
-                    items.addAll(list);
-                  }
-                }
-                if (e.type == EventType.noMoreQuestion) {
-                  items.add(BubbleWidget(text: e.title!));
-                }
-              });
+              for (var socketData in state.feed) {
+                addElementToItems(items, socketData);
+              }
               if (items.length > 2) {
                 _scrollController.animateTo(
                   _scrollController.position.maxScrollExtent,
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   curve: Curves.easeOut,
                 );
               }
@@ -114,28 +136,36 @@ class _ChatPageState extends State<ChatPage>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
-                            width: 150,
-                            child: RaisedButton(
+                          if (_showEndOfBotOptions) ...[
+                            SizedBox(
+                              width: 150,
+                              child: RaisedButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                color: AppColors().green,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                color: const AppColors().green,
                                 onPressed: () {
-                                  context.router.push(CallReparatorRoute());
+                                  context.router
+                                      .push(const CallReparatorRoute());
                                 },
-                                child: Text("Oui")),
-                          ),
-                          SizedBox(
-                            width: 150,
-                            child: RaisedButton(
+                                child: const Text("Oui"),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 150,
+                              child: RaisedButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                color: AppColors().grey.withOpacity(1),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                color:
+                                    const AppColors().green.withOpacity(0.25),
                                 onPressed: () {
-                                  context.router.navigate(ActionRoute());
+                                  context.router.navigate(const ActionRoute());
                                 },
-                                child: Text("Non")),
-                          ),
+                                child: const Text("Non"),
+                              ),
+                            ),
+                          ]
                         ],
                       ),
                     ),
@@ -190,12 +220,18 @@ class BubbleWidget extends StatelessWidget {
                 const AppColors().brown, const AppColors().lightBlue),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-              topLeft: applyOnUserType(const Radius.circular(15),
-                  const Radius.circular(0), const Radius.circular(0)),
+              topLeft: applyOnUserType(
+                const Radius.circular(15),
+                const Radius.circular(0),
+                const Radius.circular(0),
+              ),
               topRight: const Radius.circular(15),
               bottomLeft: const Radius.circular(15),
-              bottomRight: applyOnUserType(const Radius.circular(0),
-                  const Radius.circular(15), const Radius.circular(15)),
+              bottomRight: applyOnUserType(
+                const Radius.circular(0),
+                const Radius.circular(15),
+                const Radius.circular(15),
+              ),
             )),
             child: Container(
               padding: const EdgeInsets.all(10),
@@ -240,21 +276,21 @@ class ProposalWidget extends StatelessWidget {
       },
       child: Card(
         elevation: 0,
-        color: !isSelected ? const AppColors().grey : AppColors().green,
+        color: !isSelected ? const AppColors().grey : const AppColors().green,
         shape: !isSelected
-            ? RoundedRectangleBorder(
+            ? const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(5),
-                topRight: const Radius.circular(5),
-                bottomLeft: const Radius.circular(5),
-                bottomRight: const Radius.circular(5),
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+                bottomLeft: Radius.circular(5),
+                bottomRight: Radius.circular(5),
               ))
-            : RoundedRectangleBorder(
+            : const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(15),
-                topRight: const Radius.circular(15),
-                bottomLeft: const Radius.circular(15),
-                bottomRight: const Radius.circular(0),
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(0),
               )),
         child: Container(
           padding: const EdgeInsets.all(10),
