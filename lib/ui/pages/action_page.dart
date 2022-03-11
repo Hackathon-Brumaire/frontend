@@ -19,8 +19,8 @@ class ActionPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CardLink(
-                  title: "appeler l'assistance",
-                  text: "Vous avez besoin d'une assistance telephonique ?",
+                  title: "Appeler l'assistance",
+                  text: "Vous avez besoin d'une assistance téléphonique ?",
                   image: 'assets/images/call.jpg',
                   onTap: () => context.router.push(const CallReparatorRoute()),
                 ),

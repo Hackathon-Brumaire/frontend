@@ -47,7 +47,7 @@ class AllConversationsPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("All conversations",
+                        child: Text("Toutes les conversations",
                             style: context.theme.primaryTextTheme.headline2
                                 ?.copyWith(color: AppColors().black)),
                       )
@@ -65,7 +65,7 @@ class AllConversationsPage extends StatelessWidget {
                           if (snapshot.data.length == 0) {
                             return Center(
                               child: Text(
-                                "There is currently no conversation",
+                                "Il n'y a pas de conversation en cours",
                                 style: context.theme.primaryTextTheme.headline2,
                               ),
                             );
@@ -87,7 +87,7 @@ class AllConversationsPage extends StatelessWidget {
                                               BorderRadius.circular(5.0)),
                                       tileColor: Colors.grey,
                                       title: Text(
-                                          "Conversation bot " +
+                                          "Conversation n°" +
                                               (index + 1).toString(),
                                           textAlign: TextAlign.center),
                                       trailing: const Icon(
