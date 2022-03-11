@@ -7,6 +7,8 @@ import 'ui/pages/contact_page.dart';
 import 'ui/pages/end_of_call_page.dart';
 import 'ui/pages/splash_page.dart';
 import 'ui/pages/call_page/call_reparator_page.dart';
+import 'ui/pages/support_chat_page.dart';
+import 'ui/pages/video_page.dart';
 
 @AdaptiveAutoRouter(
   replaceInRouteName: 'Page,Route',

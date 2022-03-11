@@ -36,9 +36,6 @@ class ActionPage extends StatelessWidget {
                   onTap: () =>
                       context.router.push(const AllConversationsRoute()),
                 ),
-                // const VideoReader(
-                //   videoUrl: "https://www.youtube.com/watch?v=7eNXmBQgUQc",
-                // ),
               ],
             ),
           ),

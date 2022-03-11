@@ -47,7 +47,7 @@ class AllConversationsPage extends StatelessWidget {
                       if (snapshot.data.length == 0) {
                         return Center(
                           child: Text(
-                            "There is currently no conversation",
+                            "Il n'y a pas de conversation en cour",
                             style: context.theme.primaryTextTheme.headline2,
                           ),
                         );
@@ -64,7 +64,7 @@ class AllConversationsPage extends StatelessWidget {
                                 ),
                                 tileColor: Colors.grey,
                                 title: Text(
-                                  'Conversation bot ${index + 1}',
+                                  'Conversation n° ${index + 1}',
                                   textAlign: TextAlign.center,
                                 ),
                                 trailing: const Icon(
@@ -92,7 +92,7 @@ class AllConversationsPage extends StatelessWidget {
                   if (snapshot.data.length == 0) {
                     return Center(
                       child: Text(
-                        "There is currently no conversation",
+                        "Il n'y a pas encore de conversation",
                         style: context.theme.primaryTextTheme.headline2,
                       ),
                     );
@@ -108,7 +108,7 @@ class AllConversationsPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5.0)),
                             tileColor: Colors.grey,
                             title: Text(
-                              "Conversation bot ${index + 1}",
+                              "Conversation N° ${index + 1}",
                               textAlign: TextAlign.center,
                             ),
                             trailing: const Icon(

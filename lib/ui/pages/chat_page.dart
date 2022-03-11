@@ -214,12 +214,18 @@ class BubbleWidget extends StatelessWidget {
                 const AppColors().brown, const AppColors().lightBlue),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-              topLeft: applyOnUserType(const Radius.circular(15),
-                  const Radius.circular(0), const Radius.circular(0)),
+              topLeft: applyOnUserType(
+                const Radius.circular(15),
+                const Radius.circular(0),
+                const Radius.circular(0),
+              ),
               topRight: const Radius.circular(15),
               bottomLeft: const Radius.circular(15),
-              bottomRight: applyOnUserType(const Radius.circular(0),
-                  const Radius.circular(15), const Radius.circular(15)),
+              bottomRight: applyOnUserType(
+                const Radius.circular(0),
+                const Radius.circular(15),
+                const Radius.circular(15),
+              ),
             )),
             child: Container(
               padding: const EdgeInsets.all(10),
