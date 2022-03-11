@@ -121,7 +121,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         (data) => streamSocket
             .addResponse(SocketData.fromQuestion(handleQuestion(data))));
     socket.on('supportUser',
-            (data) => streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
+            (data) => streamSocket.addResponse(SocketData.fromSupportUser(data)));
     socket.on('noMoreQuestion',
         (data) => streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
     socket.on(

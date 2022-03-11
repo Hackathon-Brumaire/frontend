@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-enum EventType { welcome, question, noMoreQuestion, roomIdForVisio }
+enum EventType { welcome, question, noMoreQuestion, roomIdForVisio, userJoined }
 
 Question questionFromJson(String str) => Question.fromJson(json.decode(str));
 

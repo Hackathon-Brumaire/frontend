@@ -37,7 +37,8 @@ class SocketData with _$SocketData {
         type: EventType.noMoreQuestion,
       );
 
-  factory SocketData.fromSupportUser(Map<String, dynamic> data) => SocketData(title: data["title"], type: EventType.question);
+  factory SocketData.fromSupportUser(Map<String, dynamic> data) => 
+      SocketData(title: data["title"], type: EventType.userJoined);
 
   factory SocketData.fromRoomIdToVisitor(String roomId) =>
       SocketData(text: roomId, type: EventType.roomIdForVisio);

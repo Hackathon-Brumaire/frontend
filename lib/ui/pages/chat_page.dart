@@ -97,6 +97,9 @@ class _ChatPageState extends State<ChatPage>
       items.add(BubbleWidget(text: socketData.title!));
       _showEndOfBotOptions = true;
     }
+    if (socketData.type == EventType.userJoined) {
+      items.add(InfoWidget(title: socketData.title!));
+    }
   }
 
   @override
@@ -336,5 +339,35 @@ class ProposalWidget extends StatelessWidget {
     } else {
       return child;
     }
+  }
+}
+
+class InfoWidget extends StatelessWidget {
+  const InfoWidget({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      color: const AppColors().black,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(5),
+        topRight: Radius.circular(5),
+        bottomLeft: Radius.circular(5),
+        bottomRight: Radius.circular(5),
+      )),
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: context.theme.primaryTextTheme.headline3
+              ?.copyWith(color: const AppColors().white),
+        ),
+      ),
+    );
   }
 }
