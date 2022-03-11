@@ -40,6 +40,13 @@ class _SupportChatPageState extends State<SupportChatPage>
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> items = [];
 

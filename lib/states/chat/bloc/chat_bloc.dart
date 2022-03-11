@@ -75,9 +75,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       roomId: roomId,
     );
 
-    // newState.feed.map((e) {
-    //   e.
-    // });
+    // final ns = state.copyWith(feed: [...newState.feed.map((e) {
+    //   if(e.nextAnswers != null && e.nextAnswers!.isNotEmpty && e.isAnswered!){
+    //     return e.copyWith(nextAnswers: e.nextAnswers!.takeWhile((value) => value.selected == true).toList());
+    //   }else{
+    //     return e;
+    //   }
+    // }).toList()]);
 
     emit(newState);
   }
