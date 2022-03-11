@@ -33,6 +33,9 @@ class _ChatPageState extends State<ChatPage>
     with SingleTickerProviderStateMixin {
   late final ScrollController _scrollController;
   bool _showEndOfBotOptions = false;
+  late final TextEditingController _textEditingController;
+
+
 
   void handlePressOneOui(BuildContext context, String roomId) {
     showDialog(
@@ -55,7 +58,15 @@ class _ChatPageState extends State<ChatPage>
   @override
   void initState() {
     _scrollController = ScrollController();
+    _textEditingController = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _textEditingController.dispose();
+    super.dispose();
   }
 
   void _selectProposal(BuildContext context, int index) {
@@ -124,13 +135,13 @@ class _ChatPageState extends State<ChatPage>
               for (var socketData in state.feed) {
                 addElementToItems(items, socketData);
               }
-              if (items.length > 2) {
-                _scrollController.animateTo(
-                  _scrollController.position.maxScrollExtent,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeOut,
-                );
-              }
+              // if (items.length > 2) {
+              //   _scrollController.animateTo(
+              //     _scrollController.position.maxScrollExtent,
+              //     duration: const Duration(milliseconds: 500),
+              //     curve: Curves.easeOut,
+              //   );
+              // }
             }
             items.add(SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
@@ -153,7 +164,8 @@ class _ChatPageState extends State<ChatPage>
                     },
                     itemCount: items.length,
                   ),
-                  Positioned(
+                  // if(!state.feed.any((element) => element.type == EventType.userJoined))
+                    Positioned(
                     bottom: 20,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -198,7 +210,44 @@ class _ChatPageState extends State<ChatPage>
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  // if(state.feed.any((element) => element.type == EventType.userJoined))
+                    Positioned(
+                      bottom: 0,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.white,
+                        child: Row(
+                          children: [
+                            const Text(
+                              '🙂',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    onEditingComplete: () {},
+                                    onFieldSubmitted: (s) {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      context.read<ChatBloc>().add(
+                                          ChatEvent.onReply(
+                                              _textEditingController.value.text));
+                                      _textEditingController.clear();
+                                    },
+                                    toolbarOptions: const ToolbarOptions(),
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder()),
+                                    controller: _textEditingController,
+                                    maxLines: 1,
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ))
                 ],
               );
             }
