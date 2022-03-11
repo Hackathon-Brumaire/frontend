@@ -33,6 +33,10 @@ class _$ChatEventTearOff {
       id,
     );
   }
+
+  OnTransportToVisio onTransportToVisio() {
+    return const OnTransportToVisio();
+  }
 }
 
 /// @nodoc
@@ -45,6 +49,7 @@ mixin _$ChatEvent {
     required TResult Function() onConnect,
     required TResult Function(SocketData d) onSocketEventChange,
     required TResult Function(String id) onReply,
+    required TResult Function() onTransportToVisio,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -52,6 +57,7 @@ mixin _$ChatEvent {
     TResult Function()? onConnect,
     TResult Function(SocketData d)? onSocketEventChange,
     TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,6 +65,7 @@ mixin _$ChatEvent {
     TResult Function()? onConnect,
     TResult Function(SocketData d)? onSocketEventChange,
     TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -67,6 +74,7 @@ mixin _$ChatEvent {
     required TResult Function(OnConnect value) onConnect,
     required TResult Function(OnSocketEventChange value) onSocketEventChange,
     required TResult Function(OnReply value) onReply,
+    required TResult Function(OnTransportToVisio value) onTransportToVisio,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -74,6 +82,7 @@ mixin _$ChatEvent {
     TResult Function(OnConnect value)? onConnect,
     TResult Function(OnSocketEventChange value)? onSocketEventChange,
     TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -81,6 +90,7 @@ mixin _$ChatEvent {
     TResult Function(OnConnect value)? onConnect,
     TResult Function(OnSocketEventChange value)? onSocketEventChange,
     TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -142,6 +152,7 @@ class _$OnConnect implements OnConnect {
     required TResult Function() onConnect,
     required TResult Function(SocketData d) onSocketEventChange,
     required TResult Function(String id) onReply,
+    required TResult Function() onTransportToVisio,
   }) {
     return onConnect();
   }
@@ -152,6 +163,7 @@ class _$OnConnect implements OnConnect {
     TResult Function()? onConnect,
     TResult Function(SocketData d)? onSocketEventChange,
     TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
   }) {
     return onConnect?.call();
   }
@@ -162,6 +174,7 @@ class _$OnConnect implements OnConnect {
     TResult Function()? onConnect,
     TResult Function(SocketData d)? onSocketEventChange,
     TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
     required TResult orElse(),
   }) {
     if (onConnect != null) {
@@ -176,6 +189,7 @@ class _$OnConnect implements OnConnect {
     required TResult Function(OnConnect value) onConnect,
     required TResult Function(OnSocketEventChange value) onSocketEventChange,
     required TResult Function(OnReply value) onReply,
+    required TResult Function(OnTransportToVisio value) onTransportToVisio,
   }) {
     return onConnect(this);
   }
@@ -186,6 +200,7 @@ class _$OnConnect implements OnConnect {
     TResult Function(OnConnect value)? onConnect,
     TResult Function(OnSocketEventChange value)? onSocketEventChange,
     TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
   }) {
     return onConnect?.call(this);
   }
@@ -196,6 +211,7 @@ class _$OnConnect implements OnConnect {
     TResult Function(OnConnect value)? onConnect,
     TResult Function(OnSocketEventChange value)? onSocketEventChange,
     TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
     required TResult orElse(),
   }) {
     if (onConnect != null) {
@@ -286,6 +302,7 @@ class _$OnSocketEventChange implements OnSocketEventChange {
     required TResult Function() onConnect,
     required TResult Function(SocketData d) onSocketEventChange,
     required TResult Function(String id) onReply,
+    required TResult Function() onTransportToVisio,
   }) {
     return onSocketEventChange(d);
   }
@@ -296,6 +313,7 @@ class _$OnSocketEventChange implements OnSocketEventChange {
     TResult Function()? onConnect,
     TResult Function(SocketData d)? onSocketEventChange,
     TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
   }) {
     return onSocketEventChange?.call(d);
   }
@@ -306,6 +324,7 @@ class _$OnSocketEventChange implements OnSocketEventChange {
     TResult Function()? onConnect,
     TResult Function(SocketData d)? onSocketEventChange,
     TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
     required TResult orElse(),
   }) {
     if (onSocketEventChange != null) {
@@ -320,6 +339,7 @@ class _$OnSocketEventChange implements OnSocketEventChange {
     required TResult Function(OnConnect value) onConnect,
     required TResult Function(OnSocketEventChange value) onSocketEventChange,
     required TResult Function(OnReply value) onReply,
+    required TResult Function(OnTransportToVisio value) onTransportToVisio,
   }) {
     return onSocketEventChange(this);
   }
@@ -330,6 +350,7 @@ class _$OnSocketEventChange implements OnSocketEventChange {
     TResult Function(OnConnect value)? onConnect,
     TResult Function(OnSocketEventChange value)? onSocketEventChange,
     TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
   }) {
     return onSocketEventChange?.call(this);
   }
@@ -340,6 +361,7 @@ class _$OnSocketEventChange implements OnSocketEventChange {
     TResult Function(OnConnect value)? onConnect,
     TResult Function(OnSocketEventChange value)? onSocketEventChange,
     TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
     required TResult orElse(),
   }) {
     if (onSocketEventChange != null) {
@@ -423,6 +445,7 @@ class _$OnReply implements OnReply {
     required TResult Function() onConnect,
     required TResult Function(SocketData d) onSocketEventChange,
     required TResult Function(String id) onReply,
+    required TResult Function() onTransportToVisio,
   }) {
     return onReply(id);
   }
@@ -433,6 +456,7 @@ class _$OnReply implements OnReply {
     TResult Function()? onConnect,
     TResult Function(SocketData d)? onSocketEventChange,
     TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
   }) {
     return onReply?.call(id);
   }
@@ -443,6 +467,7 @@ class _$OnReply implements OnReply {
     TResult Function()? onConnect,
     TResult Function(SocketData d)? onSocketEventChange,
     TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
     required TResult orElse(),
   }) {
     if (onReply != null) {
@@ -457,6 +482,7 @@ class _$OnReply implements OnReply {
     required TResult Function(OnConnect value) onConnect,
     required TResult Function(OnSocketEventChange value) onSocketEventChange,
     required TResult Function(OnReply value) onReply,
+    required TResult Function(OnTransportToVisio value) onTransportToVisio,
   }) {
     return onReply(this);
   }
@@ -467,6 +493,7 @@ class _$OnReply implements OnReply {
     TResult Function(OnConnect value)? onConnect,
     TResult Function(OnSocketEventChange value)? onSocketEventChange,
     TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
   }) {
     return onReply?.call(this);
   }
@@ -477,6 +504,7 @@ class _$OnReply implements OnReply {
     TResult Function(OnConnect value)? onConnect,
     TResult Function(OnSocketEventChange value)? onSocketEventChange,
     TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
     required TResult orElse(),
   }) {
     if (onReply != null) {
@@ -495,14 +523,134 @@ abstract class OnReply implements ChatEvent {
 }
 
 /// @nodoc
+abstract class $OnTransportToVisioCopyWith<$Res> {
+  factory $OnTransportToVisioCopyWith(
+          OnTransportToVisio value, $Res Function(OnTransportToVisio) then) =
+      _$OnTransportToVisioCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$OnTransportToVisioCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res>
+    implements $OnTransportToVisioCopyWith<$Res> {
+  _$OnTransportToVisioCopyWithImpl(
+      OnTransportToVisio _value, $Res Function(OnTransportToVisio) _then)
+      : super(_value, (v) => _then(v as OnTransportToVisio));
+
+  @override
+  OnTransportToVisio get _value => super._value as OnTransportToVisio;
+}
+
+/// @nodoc
+
+class _$OnTransportToVisio implements OnTransportToVisio {
+  const _$OnTransportToVisio();
+
+  @override
+  String toString() {
+    return 'ChatEvent.onTransportToVisio()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is OnTransportToVisio);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onConnect,
+    required TResult Function(SocketData d) onSocketEventChange,
+    required TResult Function(String id) onReply,
+    required TResult Function() onTransportToVisio,
+  }) {
+    return onTransportToVisio();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onConnect,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
+  }) {
+    return onTransportToVisio?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onConnect,
+    TResult Function(SocketData d)? onSocketEventChange,
+    TResult Function(String id)? onReply,
+    TResult Function()? onTransportToVisio,
+    required TResult orElse(),
+  }) {
+    if (onTransportToVisio != null) {
+      return onTransportToVisio();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnConnect value) onConnect,
+    required TResult Function(OnSocketEventChange value) onSocketEventChange,
+    required TResult Function(OnReply value) onReply,
+    required TResult Function(OnTransportToVisio value) onTransportToVisio,
+  }) {
+    return onTransportToVisio(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
+  }) {
+    return onTransportToVisio?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnConnect value)? onConnect,
+    TResult Function(OnSocketEventChange value)? onSocketEventChange,
+    TResult Function(OnReply value)? onReply,
+    TResult Function(OnTransportToVisio value)? onTransportToVisio,
+    required TResult orElse(),
+  }) {
+    if (onTransportToVisio != null) {
+      return onTransportToVisio(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnTransportToVisio implements ChatEvent {
+  const factory OnTransportToVisio() = _$OnTransportToVisio;
+}
+
+/// @nodoc
 class _$ChatStateTearOff {
   const _$ChatStateTearOff();
 
   _ChatState call(
-      {required List<SocketData> history, required List<SocketData> feed}) {
+      {required List<SocketData> history,
+      required List<SocketData> feed,
+      String? roomId}) {
     return _ChatState(
       history: history,
       feed: feed,
+      roomId: roomId,
     );
   }
 }
@@ -514,6 +662,7 @@ const $ChatState = _$ChatStateTearOff();
 mixin _$ChatState {
   List<SocketData> get history => throw _privateConstructorUsedError;
   List<SocketData> get feed => throw _privateConstructorUsedError;
+  String? get roomId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChatStateCopyWith<ChatState> get copyWith =>
@@ -524,7 +673,7 @@ mixin _$ChatState {
 abstract class $ChatStateCopyWith<$Res> {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
       _$ChatStateCopyWithImpl<$Res>;
-  $Res call({List<SocketData> history, List<SocketData> feed});
+  $Res call({List<SocketData> history, List<SocketData> feed, String? roomId});
 }
 
 /// @nodoc
@@ -539,6 +688,7 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
   $Res call({
     Object? history = freezed,
     Object? feed = freezed,
+    Object? roomId = freezed,
   }) {
     return _then(_value.copyWith(
       history: history == freezed
@@ -549,6 +699,10 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
           ? _value.feed
           : feed // ignore: cast_nullable_to_non_nullable
               as List<SocketData>,
+      roomId: roomId == freezed
+          ? _value.roomId
+          : roomId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -559,7 +713,7 @@ abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
           _ChatState value, $Res Function(_ChatState) then) =
       __$ChatStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<SocketData> history, List<SocketData> feed});
+  $Res call({List<SocketData> history, List<SocketData> feed, String? roomId});
 }
 
 /// @nodoc
@@ -575,6 +729,7 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
   $Res call({
     Object? history = freezed,
     Object? feed = freezed,
+    Object? roomId = freezed,
   }) {
     return _then(_ChatState(
       history: history == freezed
@@ -585,6 +740,10 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
           ? _value.feed
           : feed // ignore: cast_nullable_to_non_nullable
               as List<SocketData>,
+      roomId: roomId == freezed
+          ? _value.roomId
+          : roomId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -592,16 +751,18 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ChatState implements _ChatState {
-  const _$_ChatState({required this.history, required this.feed});
+  const _$_ChatState({required this.history, required this.feed, this.roomId});
 
   @override
   final List<SocketData> history;
   @override
   final List<SocketData> feed;
+  @override
+  final String? roomId;
 
   @override
   String toString() {
-    return 'ChatState(history: $history, feed: $feed)';
+    return 'ChatState(history: $history, feed: $feed, roomId: $roomId)';
   }
 
   @override
@@ -610,14 +771,16 @@ class _$_ChatState implements _ChatState {
         (other.runtimeType == runtimeType &&
             other is _ChatState &&
             const DeepCollectionEquality().equals(other.history, history) &&
-            const DeepCollectionEquality().equals(other.feed, feed));
+            const DeepCollectionEquality().equals(other.feed, feed) &&
+            const DeepCollectionEquality().equals(other.roomId, roomId));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(history),
-      const DeepCollectionEquality().hash(feed));
+      const DeepCollectionEquality().hash(feed),
+      const DeepCollectionEquality().hash(roomId));
 
   @JsonKey(ignore: true)
   @override
@@ -628,12 +791,15 @@ class _$_ChatState implements _ChatState {
 abstract class _ChatState implements ChatState {
   const factory _ChatState(
       {required List<SocketData> history,
-      required List<SocketData> feed}) = _$_ChatState;
+      required List<SocketData> feed,
+      String? roomId}) = _$_ChatState;
 
   @override
   List<SocketData> get history;
   @override
   List<SocketData> get feed;
+  @override
+  String? get roomId;
   @override
   @JsonKey(ignore: true)
   _$ChatStateCopyWith<_ChatState> get copyWith =>

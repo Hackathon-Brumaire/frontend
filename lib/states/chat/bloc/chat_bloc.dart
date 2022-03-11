@@ -39,8 +39,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         onConnect: (event) => _onConnect(event, emit),
         onSocketEventChange: (event) => _onSocketEventChange(event, emit),
         onReply: (event) => _onReply(event, emit),
+        onTransportToVisio: (event) => _onTransportToVisio(event, emit),
       );
     });
+  }
+
+  _onTransportToVisio(OnTransportToVisio event, Emitter<ChatState> emit) async {
+    socket.emit('TransportToVisio', null);
   }
 
   _onConnect(OnConnect e, Emitter<ChatState> emit) async {
@@ -80,8 +85,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void connectAndListen() {
-    socket = IO.io('https://brumaire.nospy.fr/',
-        IO.OptionBuilder().setTransports(['websocket']).build());
+    socket = IO.io(
+      'https://brumaire.nospy.fr/',
+      IO.OptionBuilder().setTransports(['websocket']).build(),
+    );
 
     // Handle socket events
     socket.on('connect', (_) => print('connect: ${socket.id}'));
@@ -95,6 +102,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             .addResponse(SocketData.fromQuestion(handleQuestion(data))));
     socket.on('noMoreQuestion',
         (data) => streamSocket.addResponse(SocketData.fromNoMoreQuestion()));
+
     socket.on('disconnect', (_) => print('disconnected'));
   }
 
